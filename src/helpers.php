@@ -134,11 +134,13 @@ function pagination_html(array $pagination, string $base_url): string {
 }
 
 function asset(string $path): string {
-    return rtrim(APP_URL, '/') . '/' . ltrim($path, '/');
+    $full_path = defined('ROOT_PATH') ? ROOT_PATH . '/' . ltrim($path, '/') : __DIR__ . '/../' . ltrim($path, '/');
+    $v = file_exists($full_path) ? filemtime($full_path) : time();
+    return rtrim(APP_URL, '/') . '/' . ltrim($path, '/') . '?v=' . $v;
 }
 
 function base_url(string $path = ''): string {
-    return rtrim(APP_URL, '/') . '/' . ltrim($path, '/');
+    return rtrim(APP_URL, '/') . '/' . ltrim($path, '/') . '?v=' . time();
 }
 
 function upload_path(string $subdir = ''): string {
