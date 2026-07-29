@@ -11,27 +11,46 @@ $page_description = 'Consulte os editais, homologações e documentos dos projet
 
 // Filtro por projeto
 $filtro_projeto = (int)($_GET['projeto'] ?? 0);
+$busca          = trim($_GET['busca'] ?? '');
 
-// Projetos ativos com status
-$where = 'WHERE p.ativo = 1';
+// Condições de busca
+$where = 'WHERE 1=1';
 $params = [];
+
 if ($filtro_projeto > 0) {
     $where .= ' AND p.id = ?';
     $params[] = $filtro_projeto;
 }
 
+if (!empty($busca)) {
+    $where .= ' AND (p.nome_projeto LIKE ? OR p.num_proposta LIKE ?)';
+    $params[] = '%' . $busca . '%';
+    $params[] = '%' . $busca . '%';
+}
+
+// Buscar projetos (prioriza mostra_inicial = 1 ou ativo = 1 ou qualquer projeto existente)
 $projetos = db_fetch_all(
     "SELECT p.*, ps.projetos_status as status_nome
      FROM tab_projetos p
      LEFT JOIN tab_projetos_status ps ON p.projeto_status = ps.id
      $where
-     ORDER BY p.nome_projeto",
+     ORDER BY p.id DESC",
     $params
 );
 
-// Todos projetos para o filtro
+// Se a busca estiver vazia e retornar nada com o filtro rigoroso, busca todos os projetos cadastrados
+if (empty($projetos) && $filtro_projeto == 0 && empty($busca)) {
+    $projetos = db_fetch_all(
+        "SELECT p.*, ps.projetos_status as status_nome
+         FROM tab_projetos p
+         LEFT JOIN tab_projetos_status ps ON p.projeto_status = ps.id
+         ORDER BY p.id DESC"
+    );
+}
+
+// Todos os projetos para o dropdown de filtro
 $todos_projetos = db_fetch_all(
-    'SELECT id, nome_projeto FROM tab_projetos WHERE ativo = 1 ORDER BY nome_projeto'
+    'SELECT id, nome_projeto, num_proposta FROM tab_projetos ORDER BY id DESC'
 );
 
 $status_class = [
@@ -48,121 +67,172 @@ ob_start();
         <nav class="breadcrumb" aria-label="Navegação">
             <a href="/">Início</a>
             <span aria-hidden="true">›</span>
-            <span>Editais</span>
+            <span>Editais e Documentos</span>
         </nav>
-        <h1 class="page-hero-title">Editais e Documentos</h1>
-        <p class="page-hero-sub">Transparência total na gestão dos nossos projetos esportivos.</p>
+        <h1 class="page-hero-title"><i data-lucide="file-check" style="color:var(--color-primary);"></i> Editais & Transparência</h1>
+        <p class="page-hero-sub">Consulte editais, homologações e documentos de prestação de contas dos projetos do Instituto.</p>
     </div>
 </section>
 
 <section class="section" id="editais">
     <div class="container">
 
-        <!-- FILTRO -->
-        <?php if (!empty($todos_projetos)): ?>
-        <div class="editais-filter fade-in-up">
+        <!-- BARRA DE FILTRO E PESQUISA -->
+        <div class="card fade-in-up" style="margin-bottom: 2.5rem; padding: 1.5rem;">
             <form method="GET" action="/editais" id="form-filtro">
-                <label for="projeto" class="form-label">Filtrar por projeto:</label>
-                <div class="filter-row">
-                    <select name="projeto" id="projeto" class="form-select" onchange="this.form.submit()">
-                        <option value="">Todos os projetos</option>
-                        <?php foreach ($todos_projetos as $p): ?>
-                        <option value="<?= $p['id'] ?>" <?= $filtro_projeto === (int)$p['id'] ? 'selected' : '' ?>>
-                            <?= e($p['nome_projeto']) ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <?php if ($filtro_projeto): ?>
-                    <a href="/editais" class="btn btn-ghost btn-sm">Limpar filtro</a>
-                    <?php endif; ?>
+                <div class="form-row" style="margin-bottom: 0;">
+                    <div class="form-group" style="margin-bottom: 0; flex: 1;">
+                        <label for="projeto" class="form-label"><i data-lucide="filter"></i> Selecionar Projeto</label>
+                        <select name="projeto" id="projeto" class="form-select" onchange="this.form.submit()">
+                            <option value="">Todos os projetos disponíveis</option>
+                            <?php foreach ($todos_projetos as $p): ?>
+                            <option value="<?= $p['id'] ?>" <?= $filtro_projeto === (int)$p['id'] ? 'selected' : '' ?>>
+                                <?= e($p['nome_projeto']) ?> <?= $p['num_proposta'] ? '(Nº ' . e($p['num_proposta']) . ')' : '' ?>
+                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0; flex: 1;">
+                        <label for="busca" class="form-label"><i data-lucide="search"></i> Buscar por Termo</label>
+                        <div style="display:flex; gap:0.5rem;">
+                            <input type="text" name="busca" id="busca" class="form-input" placeholder="Digite nome ou número do edital..." value="<?= e($busca) ?>">
+                            <button type="submit" class="btn btn-primary"><i data-lucide="search"></i> Buscar</button>
+                        </div>
+                    </div>
                 </div>
+
+                <?php if ($filtro_projeto || !empty($busca)): ?>
+                <div style="margin-top: 1rem; display:flex; align-items:center; justify-content:space-between;">
+                    <span style="font-size:0.8rem; color:var(--text-muted);">
+                        Filtro ativo: <?= $filtro_projeto ? 'Projeto selecionado' : '' ?> <?= !empty($busca) ? 'Termo "' . e($busca) . '"' : '' ?>
+                    </span>
+                    <a href="/editais" class="btn btn-ghost btn-sm"><i data-lucide="x"></i> Limpar Filtros</a>
+                </div>
+                <?php endif; ?>
             </form>
         </div>
-        <?php endif; ?>
 
-        <!-- LISTA DE PROJETOS -->
+        <!-- LISTA DE PROJETOS COM DOCUMENTOS -->
         <?php if (empty($projetos)): ?>
-        <div class="empty-state fade-in-up">
-            <div class="empty-icon">📄</div>
-            <h3>Nenhum documento disponível</h3>
-            <p>Não há editais publicados no momento.</p>
+        <div class="card text-center fade-in-up" style="padding: 3rem;">
+            <div style="width:56px; height:56px; margin:0 auto 1rem auto; border-radius:50%; background:var(--color-primary-alpha); color:var(--color-primary); display:flex; align-items:center; justify-content:center;">
+                <i data-lucide="file-x" style="width:28px; height:28px;"></i>
+            </div>
+            <h3>Nenhum edital encontrado</h3>
+            <p style="color:var(--text-muted); max-width:450px; margin:0.5rem auto 1.5rem auto;">Nenhum documento ou projeto corresponde aos critérios de pesquisa selecionados.</p>
+            <a href="/editais" class="btn btn-ghost"><i data-lucide="rotate-ccw"></i> Ver Todos os Editais</a>
         </div>
         <?php else: ?>
 
-        <div class="accordion-list fade-in-up">
+        <div class="editais-list fade-in-up" style="display:flex; flex-direction:column; gap:2rem;">
             <?php foreach ($projetos as $projeto): ?>
             <?php
+                // Buscar todos os documentos vinculados diretamente ao projeto
+                $todos_docs = db_fetch_all(
+                    'SELECT d.*, t.tipo_documento, g.nome_grupo
+                     FROM tab_projetos_documentos d
+                     LEFT JOIN tab_projetos_documentos_tipo t ON d.id_tipo_documento = t.id
+                     LEFT JOIN tab_projetos_grupo_doc g ON d.id_grupo_documento = g.id
+                     WHERE d.id_projeto = ?
+                     ORDER BY d.id_grupo_documento, d.id',
+                    [$projeto['id']]
+                );
+
                 // Grupos de documentos deste projeto
                 $grupos = db_fetch_all(
                     'SELECT * FROM tab_projetos_grupo_doc WHERE id_projeto = ? ORDER BY posicao, id',
                     [$projeto['id']]
                 );
-                if (empty($grupos)) continue;
             ?>
-            <div class="accordion-item projeto-accordion" id="projeto-<?= $projeto['id'] ?>">
-                <button class="accordion-header" type="button"
-                        aria-expanded="false"
-                        aria-controls="docs-<?= $projeto['id'] ?>">
-                    <div class="accordion-header-info">
-                        <span class="accordion-title"><?= e($projeto['nome_projeto']) ?></span>
+            <div class="card projeto-card-item" id="projeto-<?= $projeto['id'] ?>" style="margin-bottom:0;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem; border-bottom:1px dashed var(--border-color); padding-bottom:1rem;">
+                    <div>
+                        <span class="badge badge-primary" style="margin-bottom:0.5rem;"><i data-lucide="folder"></i> Projeto Esportivo</span>
+                        <h2 style="font-size:1.3rem; font-weight:800; color:var(--text-main); margin-bottom:0.25rem;">
+                            <?= e($projeto['nome_projeto']) ?>
+                        </h2>
                         <?php if ($projeto['num_proposta']): ?>
-                        <span class="accordion-sub">Proposta nº <?= e($projeto['num_proposta']) ?></span>
+                        <div style="font-size:0.8rem; font-family:var(--font-mono); color:var(--text-muted);">
+                            Proposta / Processo Nº <?= e($projeto['num_proposta']) ?>
+                        </div>
                         <?php endif; ?>
                     </div>
-                    <div class="accordion-header-meta">
+
+                    <div style="display:flex; align-items:center; gap:0.75rem;">
                         <?php if ($projeto['status_nome']): ?>
                         <span class="badge <?= e($status_class[$projeto['status_nome']] ?? 'badge-secondary') ?>">
                             <?= e($projeto['status_nome']) ?>
                         </span>
                         <?php endif; ?>
                         <?php if ($projeto['valor']): ?>
-                        <span class="projeto-valor"><?= e($projeto['valor']) ?></span>
+                        <span style="font-weight:800; font-family:var(--font-mono); color:var(--color-primary);">
+                            <?= e($projeto['valor']) ?>
+                        </span>
                         <?php endif; ?>
-                        <svg class="accordion-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
                     </div>
-                </button>
-
-                <div class="accordion-body" id="docs-<?= $projeto['id'] ?>">
-                    <?php foreach ($grupos as $grupo): ?>
-                    <?php
-                        $docs = db_fetch_all(
-                            'SELECT d.*, t.tipo_documento
-                             FROM tab_projetos_documentos d
-                             LEFT JOIN tab_projetos_documentos_tipo t ON d.id_tipo_documento = t.id
-                             WHERE d.id_grupo_documento = ?
-                             ORDER BY d.id',
-                            [$grupo['id']]
-                        );
-                        if (empty($docs)) continue;
-                    ?>
-                    <div class="doc-group">
-                        <h4 class="doc-group-title"><?= e($grupo['nome_grupo']) ?></h4>
-                        <ul class="doc-list">
-                            <?php foreach ($docs as $doc): ?>
-                            <li class="doc-item">
-                                <span class="doc-icon" aria-hidden="true">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                </span>
-                                <span class="doc-nome"><?= e($doc['nome_documento']) ?></span>
-                                <span class="badge <?= $doc['tipo_documento'] === 'Editais' ? 'badge-primary' : 'badge-success' ?> badge-sm">
-                                    <?= e($doc['tipo_documento'] ?? '') ?>
-                                </span>
-                                <a href="/uploads/projetos/<?= (int)$doc['id'] ?>.pdf"
-                                   class="btn btn-ghost btn-sm doc-download"
-                                   target="_blank"
-                                   rel="noopener"
-                                   aria-label="Baixar <?= e($doc['nome_documento']) ?>">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                    Baixar PDF
-                                </a>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                    <?php endforeach; ?>
                 </div>
+
+                <?php if ($projeto['objeto']): ?>
+                <p style="font-size:0.875rem; color:var(--text-muted); margin-bottom:1.5rem; line-height:1.6;">
+                    <?= e($projeto['objeto']) ?>
+                </p>
+                <?php endif; ?>
+
+                <!-- EXIBIÇÃO DOS DOCUMENTOS E EDITAIS -->
+                <?php if (empty($todos_docs)): ?>
+                <div style="background:var(--color-primary-alpha); padding:1rem; border-radius:var(--radius-md); font-size:0.825rem; color:var(--text-muted); display:flex; align-items:center; gap:0.5rem;">
+                    <i data-lucide="info"></i> Documentação em fase de catalogação ou atualização.
+                </div>
+                <?php else: ?>
+                    
+                    <?php 
+                    // Agrupar documentos por grupo (ou por padrão)
+                    $docs_por_grupo = [];
+                    foreach ($todos_docs as $doc) {
+                        $gname = !empty($doc['nome_grupo']) ? $doc['nome_grupo'] : 'Editais & Documentos Gerais';
+                        $docs_por_grupo[$gname][] = $doc;
+                    }
+                    ?>
+
+                    <div style="display:flex; flex-direction:column; gap:1.25rem;">
+                        <?php foreach ($docs_por_grupo as $nome_grupo => $lista_docs): ?>
+                        <div style="background:var(--bg-surface-hover); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:1.25rem;">
+                            <h4 style="font-size:0.9rem; font-weight:800; color:var(--text-main); margin-bottom:1rem; display:flex; align-items:center; gap:0.4rem;">
+                                <i data-lucide="layers" style="color:var(--color-primary);"></i> <?= e($nome_grupo) ?>
+                            </h4>
+
+                            <ul style="list-style:none; display:flex; flex-direction:column; gap:0.75rem;">
+                                <?php foreach ($lista_docs as $doc): ?>
+                                <li style="display:flex; align-items:center; justify-content:space-between; padding:0.6rem 0.85rem; background:var(--bg-surface); border:1px solid var(--border-color); border-radius:var(--radius-sm); flex-wrap:wrap; gap:0.75rem;">
+                                    <div style="display:flex; align-items:center; gap:0.6rem; flex:1; min-width:200px;">
+                                        <i data-lucide="file-text" style="color:var(--color-primary);"></i>
+                                        <span style="font-size:0.85rem; font-weight:600; color:var(--text-main);">
+                                            <?= e($doc['nome_documento']) ?>
+                                        </span>
+                                        <?php if (!empty($doc['tipo_documento'])): ?>
+                                        <span class="badge badge-sm <?= strtolower($doc['tipo_documento']) === 'editais' ? 'badge-primary' : 'badge-success' ?>">
+                                            <?= e($doc['tipo_documento']) ?>
+                                        </span>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <a href="/uploads/projetos/<?= (int)$doc['id'] ?>.pdf"
+                                       class="btn btn-primary btn-sm"
+                                       target="_blank"
+                                       rel="noopener"
+                                       aria-label="Baixar <?= e($doc['nome_documento']) ?>">
+                                        <i data-lucide="download"></i> Baixar PDF
+                                    </a>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                <?php endif; ?>
+
             </div>
             <?php endforeach; ?>
         </div>
