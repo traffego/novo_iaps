@@ -38,7 +38,7 @@ INSERT INTO `tab_curriculos_funcao` (`funcao`, `ativo`) VALUES
 
 -- Organização (cod_org=10001)
 INSERT INTO `tab_org` (`cod_org`, `nome_org`, `cidade`, `estado`, `liberado`) VALUES
-(10001, 'Instituto Atletas para Sempre', 'Rio de Janeiro', 'RJ', 0);
+(10001, 'Instituto Atletas para Sempre', 'Rio de Janeiro', 'RJ', 1);
 
 -- Admin user (senha pre-hasheada para 'admin123' usando bcrypt)
 INSERT INTO `tab_login` (`usuario`, `senha`, `nome_usuario`, `nivel`, `cod_org`) VALUES

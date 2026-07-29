@@ -6,16 +6,7 @@ require_once __DIR__ . '/src/database.php';
 require_once __DIR__ . '/src/helpers.php';
 require_once __DIR__ . '/src/csrf.php';
 
-// Verificar se organização está liberada
-try {
-    $org = db_fetch('SELECT liberado FROM tab_org WHERE cod_org = 10001 LIMIT 1');
-    if ($org && (int)$org['liberado'] !== 1) {
-        http_response_code(503);
-        die('<h1>Serviço Indisponível</h1><p>A organização encontra-se temporariamente bloqueada.</p>');
-    }
-} catch (Exception $e) {
-    // Ignorar se banco ainda não estiver configurado
-}
+
 
 // Analisar URI
 $request_uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
