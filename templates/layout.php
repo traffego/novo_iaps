@@ -32,10 +32,10 @@ $meta_desc = $page_description ?? 'Instituto Atleta Para Sempre - Promovendo inc
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox@3.3.0/dist/css/glightbox.min.css">
 
     <!-- CSS Principal -->
-    <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
+    <link rel="stylesheet" href="<?= asset('assets/css/style.css') ?>">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?= asset('imgs/favicon.ico') ?>">
+    <link rel="icon" type="image/x-icon" href="<?= asset('assets/imgs/favicon.ico') ?>">
 </head>
 <body class="dark">
     <?php include ROOT_PATH . '/templates/header.php'; ?>
@@ -74,7 +74,7 @@ $meta_desc = $page_description ?? 'Instituto Atleta Para Sempre - Promovendo inc
     <script src="https://cdn.jsdelivr.net/npm/glightbox@3.3.0/dist/js/glightbox.min.js"></script>
 
     <!-- Main JS -->
-    <script src="<?= asset('js/main.js') ?>"></script>
+    <script src="<?= asset('assets/js/main.js') ?>"></script>
 
     <script>
         // Tema dark/light
