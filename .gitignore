@@ -1,0 +1,37 @@
+# Dependências
+node_modules/
+vendor/
+
+# Ambiente
+.env
+.env.local
+.env.*.local
+
+# Dados sensíveis
+data/auth_info/
+
+# Uploads (dados do usuário - não versionar)
+public/uploads/curriculos/*.pdf
+public/uploads/projetos/*.pdf
+public/uploads/transparencia/*
+public/uploads/noticias/*
+public/uploads/projetos_fotos/*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
