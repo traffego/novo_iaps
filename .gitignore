@@ -10,12 +10,9 @@ vendor/
 # Dados sensíveis
 data/auth_info/
 
-# Uploads (dados do usuário - não versionar)
-public/uploads/curriculos/*.pdf
-public/uploads/projetos/*.pdf
-public/uploads/transparencia/*
-public/uploads/noticias/*
-public/uploads/projetos_fotos/*
+# Uploads privados de usuários (não versionar por privacidade LGPD)
+uploads/curriculos/*.pdf
+uploads/fornecedores/*
 
 # IDE
 .vscode/
@@ -35,17 +32,8 @@ logs/
 
 # Cache
 .cache/
-
-# Cache IBGE (gerado automaticamente, não versionar)
 storage/cache/cidades/*.json
 
-# Uploads reais (não versionar arquivos de usuário)
-uploads/curriculos/*.pdf
-uploads/projetos/*.pdf
-uploads/noticias/*
-uploads/transparencia/*
-uploads/docs/*
-
-# Manter estrutura de pastas vazias
+# Manter estrutura
 !uploads/**/.gitkeep
 !storage/**/.gitkeep
