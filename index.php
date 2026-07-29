@@ -6,8 +6,6 @@ require_once __DIR__ . '/src/database.php';
 require_once __DIR__ . '/src/helpers.php';
 require_once __DIR__ . '/src/csrf.php';
 
-
-
 // Analisar URI
 $request_uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 
@@ -24,6 +22,7 @@ if ($request_uri === '' || $request_uri === null) {
 // Mapa de rotas → arquivo de página
 $routes = [
     '/'                                  => 'pages/home.php',
+    '/projetos'                          => 'pages/projetos.php',
     '/quem-somos'                        => 'pages/quem-somos.php',
     '/contato'                           => 'pages/contato.php',
     '/noticias'                          => 'pages/noticias.php',
@@ -54,27 +53,23 @@ if (!$file_to_include) {
         $file_to_include = 'pages/noticia-detalhe.php';
     } elseif (preg_match('#^/projetos/(\d+)$#', $request_uri, $m)) {
         $_GET['id']      = (int)$m[1];
-        $file_to_include = 'pages/projeto-detalhe.php';
+        $file_to_include = 'pages/projetos.php';
     }
 }
 
 // Executar página ou 404
 if ($file_to_include && file_exists(__DIR__ . '/' . $file_to_include)) {
-    // As páginas gerenciam seu próprio ob_start/ob_get_clean e incluem o layout.
-    // Basta fazer require diretamente.
     require __DIR__ . '/' . $file_to_include;
 } else {
     http_response_code(404);
-    // Página 404 com layout
     $page_title       = 'Página não encontrada';
     $page_description = 'A URL solicitada não existe.';
     ob_start();
     echo '<section class="section"><div class="container" style="text-align:center;padding:6rem 1rem">';
-    echo '<h1 style="font-size:5rem;color:var(--primary)">404</h1>';
+    echo '<h1 style="font-size:5rem;color:var(--color-primary)">404</h1>';
     echo '<p style="font-size:1.25rem;margin-bottom:2rem">Página não encontrada.</p>';
     echo '<a href="/" class="btn btn-primary">Voltar ao início</a>';
     echo '</div></section>';
     $content = ob_get_clean();
     require __DIR__ . '/templates/layout.php';
 }
-
