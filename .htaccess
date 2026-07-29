@@ -1,0 +1,19 @@
+RewriteEngine On
+RewriteBase /
+
+# Protect sensitive directories
+RewriteRule ^src/ - [F,L]
+RewriteRule ^templates/ - [F,L]
+RewriteRule ^migrations/ - [F,L]
+RewriteRule ^\.env - [F,L]
+
+# Allow direct access to real files and directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Skip admin and api (they have their own routing)
+RewriteCond %{REQUEST_URI} !^/admin
+RewriteCond %{REQUEST_URI} !^/api
+
+# Route everything else to front controller
+RewriteRule ^(.*)$ index.php [QSA,L]
