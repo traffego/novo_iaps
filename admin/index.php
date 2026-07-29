@@ -173,13 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="login-wrapper">
         <!-- Logo / Marca -->
         <div class="login-logo">
-            <?php if (file_exists(ROOT_PATH . '/assets/img/logo.png')): ?>
-                <img src="/assets/img/logo.png" alt="Instituto Atleta Para Sempre">
-            <?php else: ?>
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1f6feb" stroke-width="1.5">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
-            <?php endif; ?>
+            <img src="https://institutoatletaparasempre.org/imgs/logo_site.png" alt="Instituto Atleta Para Sempre" style="max-height: 80px; margin-bottom: 15px;">
             <span class="login-logo-text">Instituto Atleta Para Sempre</span>
             <span class="login-logo-sub">Painel Administrativo</span>
         </div>

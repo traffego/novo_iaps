@@ -6,17 +6,17 @@
 
 :root {
     /* Color Palette - Light Theme */
-    --color-primary: #059669; /* Sports Emerald */
-    --color-primary-light: #34d399;
-    --color-primary-dark: #047857;
-    --color-primary-alpha: rgba(5, 150, 105, 0.1);
+    --color-primary: #007BFF;
+    --color-primary-light: #7492B7;
+    --color-primary-dark: #043F7B;
+    --color-primary-alpha: rgba(0, 123, 255, 0.1);
     
-    --color-secondary: #2563eb; /* Sport Blue */
-    --color-secondary-light: #60a5fa;
-    --color-secondary-dark: #1d4ed8;
-    --color-secondary-alpha: rgba(37, 99, 235, 0.1);
+    --color-secondary: #021C3D;
+    --color-secondary-light: #043F7B;
+    --color-secondary-dark: #212529;
+    --color-secondary-alpha: rgba(2, 28, 61, 0.1);
     
-    --color-neutral-50: #f8fafc;
+    --color-neutral-50: #F8F9FA;
     --color-neutral-100: #f1f5f9;
     --color-neutral-200: #e2e8f0;
     --color-neutral-300: #cbd5e1;
@@ -24,7 +24,7 @@
     --color-neutral-500: #64748b;
     --color-neutral-600: #475569;
     --color-neutral-700: #334155;
-    --color-neutral-800: #1e293b;
+    --color-neutral-800: #212529;
     --color-neutral-900: #0f172a;
     
     --color-success: #10b981;

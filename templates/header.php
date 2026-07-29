@@ -6,9 +6,7 @@ if (!defined('ROOT_PATH')) exit;
     <div class="container">
         <nav class="navbar">
             <a href="/" class="navbar-brand">
-                <!-- Replace with actual logo path -->
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                IAPS
+                <img src="https://institutoatletaparasempre.org/imgs/logo_site.png" alt="Instituto Atleta Para Sempre" style="height: 40px;">
             </a>
 
             <div class="navbar-collapse" id="navbar-collapse">
