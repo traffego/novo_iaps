@@ -5,42 +5,47 @@ if (!defined('ROOT_PATH')) exit;
 <header class="site-header">
     <div class="container">
         <nav class="navbar">
-            <a href="/" class="navbar-brand">
-                <img src="https://institutoatletaparasempre.org/imgs/logo_site.png" alt="Instituto Atleta Para Sempre" style="height: 40px;">
+            <a href="/" class="logo-inverted-container" title="Instituto Atleta Para Sempre">
+                <img src="https://institutoatletaparasempre.org/imgs/logo_site.png" alt="Instituto Atleta Para Sempre" class="header-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="logo-fallback" style="display:none;">
+                    <div class="logo-icon-pill">A</div>
+                    <span class="logo-text-inverted">Atleta Para Sempre</span>
+                </div>
             </a>
 
             <div class="navbar-collapse" id="navbar-collapse">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a href="/" class="nav-link">Início</a></li>
-                    <li class="nav-item"><a href="/quem-somos" class="nav-link">Quem Somos</a></li>
-                    <li class="nav-item"><a href="/projetos" class="nav-link">Projetos</a></li>
-                    <li class="nav-item"><a href="/noticias" class="nav-link">Notícias</a></li>
+                    <li class="nav-item"><a href="/" class="nav-link"><i data-lucide="home"></i> Início</a></li>
+                    <li class="nav-item"><a href="/quem-somos" class="nav-link"><i data-lucide="info"></i> Quem Somos</a></li>
+                    <li class="nav-item"><a href="/projetos" class="nav-link"><i data-lucide="trophy"></i> Projetos</a></li>
+                    <li class="nav-item"><a href="/noticias" class="nav-link"><i data-lucide="newspaper"></i> Notícias</a></li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link" id="navbarDropdown">
-                            Transparência
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                            <i data-lucide="shield-check"></i> Transparência
+                            <i data-lucide="chevron-down" style="width:14px; height:14px; margin-left:2px;"></i>
                         </a>
                         <div class="dropdown-menu">
-                            <a href="/transparencia/declaracao" class="dropdown-item">Declaração</a>
-                            <a href="/transparencia/dirigentes" class="dropdown-item">Dirigentes</a>
-                            <a href="/transparencia/estatuto" class="dropdown-item">Estatuto</a>
-                            <a href="/transparencia/financeiro" class="dropdown-item">Financeiro</a>
-                            <a href="/transparencia/regulamento" class="dropdown-item">Regulamento</a>
-                            <a href="/transparencia/termos" class="dropdown-item">Termos</a>
-                            <a href="/transparencia/painel" class="dropdown-item">Painel de Transferências</a>
+                            <a href="/transparencia/declaracao" class="dropdown-item"><i data-lucide="file-text"></i> Declaração</a>
+                            <a href="/transparencia/dirigentes" class="dropdown-item"><i data-lucide="users"></i> Dirigentes</a>
+                            <a href="/transparencia/estatuto" class="dropdown-item"><i data-lucide="file-check"></i> Estatuto</a>
+                            <a href="/transparencia/financeiro" class="dropdown-item"><i data-lucide="dollar-sign"></i> Financeiro</a>
+                            <a href="/transparencia/regulamento" class="dropdown-item"><i data-lucide="book-open"></i> Regulamento</a>
+                            <a href="/transparencia/termos" class="dropdown-item"><i data-lucide="file-signature"></i> Termos</a>
+                            <a href="/transparencia/painel" class="dropdown-item"><i data-lucide="layout-dashboard"></i> Painel de Transferências</a>
                         </div>
                     </li>
-                    <li class="nav-item"><a href="/trabalhe-conosco" class="nav-link">Trabalhe Conosco</a></li>
-                    <li class="nav-item"><a href="/contato" class="nav-link">Contato</a></li>
+                    <li class="nav-item"><a href="/trabalhe-conosco" class="nav-link"><i data-lucide="briefcase"></i> Trabalhe Conosco</a></li>
+                    <li class="nav-item"><a href="/fornecedores" class="nav-link"><i data-lucide="building-2"></i> Fornecedores</a></li>
+                    <li class="nav-item"><a href="/contato" class="nav-link"><i data-lucide="mail"></i> Contato</a></li>
                 </ul>
             </div>
 
             <div class="navbar-actions">
-                <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <button id="theme-toggle" class="theme-toggle btn-icon" aria-label="Alternar tema">
+                    <i data-lucide="sun"></i>
                 </button>
-                <button id="mobile-menu-toggle" class="navbar-toggler" aria-label="Menu">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                <button id="mobile-menu-toggle" class="navbar-toggler btn-icon" aria-label="Menu">
+                    <i data-lucide="menu"></i>
                 </button>
             </div>
         </nav>
