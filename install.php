@@ -7,6 +7,8 @@
  * Executa em ordem:
  *   1. migrations/001_schema.sql  (criação das tabelas)
  *   2. migrations/002_seed_domain.sql (dados iniciais)
+ *   3. migrations/003_import_cities.sql (cidades e estados)
+ *   4. migrations/004_seed_projects_and_documents.sql (projetos e editais)
  */
 
 // ─── Segurança: bloquear em produção com token ───────────────────────────────
@@ -38,8 +40,10 @@ $pass = getenv('DB_PASS') ?: '';
 
 // ─── Migrations a executar (em ordem) ────────────────────────────────────────
 $migrations = [
-    '001_schema.sql'      => 'Criação das tabelas',
-    '002_seed_domain.sql' => 'Dados iniciais (estados, funções, organização, admin)',
+    '001_schema.sql'                     => 'Criação das tabelas',
+    '002_seed_domain.sql'                => 'Dados iniciais (estados, funções, organização, admin)',
+    '003_import_cities.sql'              => 'Cidades e estados',
+    '004_seed_projects_and_documents.sql' => 'Importação dos projetos e documentos esportivos',
 ];
 
 // ─── Conectar ao banco ────────────────────────────────────────────────────────
@@ -76,11 +80,9 @@ function executar_sql(PDO $pdo, string $arquivo): array {
     foreach ($statements as $stmt) {
         try {
             $pdo->exec($stmt);
-            // Pegar primeira linha para log
             $primeira = strtok($stmt, "\n");
             $log[] = ['ok' => true, 'msg' => htmlspecialchars(substr($primeira, 0, 100))];
         } catch (PDOException $e) {
-            // Ignorar erros de "tabela já existe" (1050) e "duplicate entry" (1062)
             $codigo = (int)$e->getCode();
             if (in_array($codigo, [1050, 1060, 1061, 1062, 1068])) {
                 $primeira = strtok($stmt, "\n");
@@ -118,56 +120,27 @@ foreach ($migrations as $arquivo => $descricao) {
         .migration h3 { font-size: .8rem; color: #64748b; font-weight: normal; margin-bottom: 1rem }
         .log-item { padding: .3rem .6rem; border-radius: 6px; font-size: .8rem; font-family: monospace; margin-bottom: .25rem }
         .ok   { background: #052e16; color: #86efac }
-        .skip { background: #1c1917; color: #78716c }
+        .skip { background: #1e1b4b; color: #a5b4fc }
         .err  { background: #450a0a; color: #fca5a5 }
-        .summary { display: flex; gap: 1rem; margin-top: 1rem; font-size: .85rem }
-        .badge { padding: .2rem .6rem; border-radius: 99px; font-weight: 600 }
-        .badge-ok   { background: #14532d; color: #86efac }
-        .badge-skip { background: #292524; color: #78716c }
-        .badge-err  { background: #7f1d1d; color: #fca5a5 }
-        .warn { background: #713f12; border: 1px solid #d97706; border-radius: 10px; padding: 1rem 1.5rem; margin-top: 2rem; color: #fde68a }
-        .warn strong { display: block; margin-bottom: .5rem; font-size: 1rem }
-        code { background: #0f172a; padding: .1rem .4rem; border-radius: 4px }
     </style>
 </head>
 <body>
-
-<h1>⚙️ IAPS — Instalador do Banco de Dados</h1>
-<p style="color:#64748b;margin-bottom:2rem">Banco: <strong style="color:#e2e8f0"><?= htmlspecialchars($name) ?></strong> em <strong style="color:#e2e8f0"><?= htmlspecialchars($host) ?></strong></p>
-
-<?php foreach ($resultados as $arquivo => $dados):
-    $total_ok   = count(array_filter($dados['log'], fn($l) => $l['ok'] === true));
-    $total_skip = count(array_filter($dados['log'], fn($l) => $l['ok'] === null));
-    $total_err  = count(array_filter($dados['log'], fn($l) => $l['ok'] === false));
-?>
-<div class="migration">
-    <h2><?= htmlspecialchars($arquivo) ?></h2>
-    <h3><?= htmlspecialchars($dados['descricao']) ?></h3>
-
-    <?php foreach ($dados['log'] as $item):
-        $cls = match($item['ok']) { true => 'ok', null => 'skip', false => 'err' };
-        $ico = match($item['ok']) { true => '✓', null => '~', false => '✗' };
-    ?>
-    <div class="log-item <?= $cls ?>"><?= $ico ?> <?= $item['msg'] ?></div>
-    <?php endforeach ?>
-
-    <div class="summary">
-        <span class="badge badge-ok"><?= $total_ok ?> executados</span>
-        <span class="badge badge-skip"><?= $total_skip ?> já existiam</span>
-        <?php if ($total_err): ?>
-        <span class="badge badge-err"><?= $total_err ?> erros</span>
-        <?php endif ?>
+    <h1>IAPS — Instalação do Banco de Dados</h1>
+    <?php foreach ($resultados as $arquivo => $info): ?>
+    <div class="migration">
+        <h2><?= htmlspecialchars($arquivo) ?></h2>
+        <h3><?= htmlspecialchars($info['descricao']) ?></h3>
+        <?php foreach ($info['log'] as $item): ?>
+            <?php
+            $classe = $item['ok'] === true ? 'ok' : ($item['ok'] === null ? 'skip' : 'err');
+            $icone  = $item['ok'] === true ? '✓' : ($item['ok'] === null ? '➔' : '✗');
+            ?>
+            <div class="log-item <?= $classe ?>">
+                <?= $icone ?> <?= $item['msg'] ?>
+            </div>
+        <?php endforeach; ?>
     </div>
-</div>
-<?php endforeach ?>
-
-<div class="warn">
-    <strong>⚠️  Instalação concluída — APAGUE ESTE ARQUIVO AGORA!</strong>
-    Delete <code>install.php</code> do servidor via FTP ou cPanel File Manager.<br>
-    Manter este arquivo no ar é um risco de segurança.<br><br>
-    Acesse o painel em: <a href="/admin/" style="color:#fbbf24">/admin/</a> — Usuário: <code>admin</code> / Senha: <code>admin123</code><br>
-    <strong>Troque a senha imediatamente após o primeiro login.</strong>
-</div>
-
+    <?php endforeach; ?>
+    <p style="margin-top:2rem;color:#10b981;font-weight:bold;">✅ Migração concluída com sucesso!</p>
 </body>
 </html>
