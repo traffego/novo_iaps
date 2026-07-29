@@ -35,3 +35,17 @@ logs/
 
 # Cache
 .cache/
+
+# Cache IBGE (gerado automaticamente, não versionar)
+storage/cache/cidades/*.json
+
+# Uploads reais (não versionar arquivos de usuário)
+uploads/curriculos/*.pdf
+uploads/projetos/*.pdf
+uploads/noticias/*
+uploads/transparencia/*
+uploads/docs/*
+
+# Manter estrutura de pastas vazias
+!uploads/**/.gitkeep
+!storage/**/.gitkeep

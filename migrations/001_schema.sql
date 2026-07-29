@@ -10,15 +10,12 @@ CREATE TABLE `estado` (
   PRIMARY KEY (`idUf`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 2. cidade
-CREATE TABLE `cidade` (
-  `id` INT AUTO_INCREMENT NOT NULL,
-  `nome` varchar(70) NOT NULL,
-  `codUf` char(2) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_cidade_codUf` (`codUf`),
-  CONSTRAINT `fk_cidade_estado` FOREIGN KEY (`codUf`) REFERENCES `estado` (`idUf`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- NOTA: Tabela 'cidade' removida.
+-- Cidades são carregadas dinamicamente via API IBGE:
+-- https://servicodados.ibge.gov.br/api/v1/localidades/estados/{UF}/municipios
+-- O valor armazenado nos cadastros (tab_curriculos.cidade, tab_fornecedores.cidade) é o NOME da cidade como texto.
+
 
 -- 3. tab_org
 CREATE TABLE `tab_org` (
