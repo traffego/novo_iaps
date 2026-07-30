@@ -452,7 +452,7 @@ a:hover {
 
 /* Page Hero (Para Páginas Internas) */
 .page-hero {
-    padding: 3rem 0;
+    padding: 8.5rem 0 3rem 0;
     margin-bottom: 2.5rem;
     background: var(--bg-surface);
     backdrop-filter: var(--backdrop-blur);
