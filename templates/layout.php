@@ -12,6 +12,17 @@
 $site_name = 'Instituto Atleta Para Sempre';
 $full_title = isset($page_title) ? e($page_title) . ' | ' . $site_name : $site_name;
 $meta_desc = $page_description ?? 'Instituto Atleta Para Sempre - Promovendo inclusão social através do esporte.';
+
+// Tema padrão configurado na administração (fallback = dark)
+$default_theme = 'dark';
+try {
+    if (function_exists('db_fetch')) {
+        $org_theme = db_fetch('SELECT tema_padrao FROM tab_org WHERE cod_org = 10001 LIMIT 1');
+        if (!empty($org_theme['tema_padrao'])) {
+            $default_theme = $org_theme['tema_padrao'];
+        }
+    }
+} catch (Throwable $e) {}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -40,7 +51,8 @@ $meta_desc = $page_description ?? 'Instituto Atleta Para Sempre - Promovendo inc
     <!-- Script de Inicialização de Tema para Evitar Flicker -->
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('theme');
+            const defaultTheme = '<?= e($default_theme) ?>';
+            const savedTheme = localStorage.getItem('theme') || defaultTheme;
             if (savedTheme === 'light') {
                 document.documentElement.classList.remove('dark');
             } else {

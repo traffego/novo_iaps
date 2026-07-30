@@ -16,6 +16,10 @@ $breadcrumb = [
     ['label' => 'Organização'],
 ];
 
+try {
+    db_execute("ALTER TABLE tab_org ADD COLUMN tema_padrao VARCHAR(10) DEFAULT 'dark'");
+} catch (Throwable $e) {}
+
 $org = db_fetch('SELECT * FROM tab_org WHERE cod_org = 10001');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -32,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'estado'       => trim($_POST['estado'] ?? ''),
         'cep'          => trim($_POST['cep'] ?? ''),
         'site'         => trim($_POST['site'] ?? ''),
+        'tema_padrao'  => trim($_POST['tema_padrao'] ?? 'dark'),
         'liberado'     => isset($_POST['liberado']) ? 1 : 0,
     ];
 
@@ -42,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         db_insert('tab_org', $dados);
     }
 
-    flash('success', 'Dados da organização atualizados!');
+    flash('success', 'Dados da organização e tema padrão atualizados!');
     redirect(base_url('/admin/configuracoes/organizacao.php'));
 }
 
@@ -95,6 +100,14 @@ ob_start();
             <div class="form-group form-span-2">
                 <label for="site" class="form-label">Site</label>
                 <input type="url" id="site" name="site" class="form-input" value="<?= e($org['site'] ?? '') ?>" placeholder="https://...">
+            </div>
+            <div class="form-group form-span-2">
+                <label for="tema_padrao" class="form-label">Tema Padrão do Site Público (para novos visitantes)</label>
+                <select id="tema_padrao" name="tema_padrao" class="form-select">
+                    <option value="dark" <?= ($org['tema_padrao'] ?? 'dark') === 'dark' ? 'selected' : '' ?>>🌙 Modo Escuro (Dark Mode)</option>
+                    <option value="light" <?= ($org['tema_padrao'] ?? 'dark') === 'light' ? 'selected' : '' ?>>☀️ Modo Claro (Light Mode)</option>
+                </select>
+                <small class="form-text text-muted" style="display:block; margin-top:0.35rem; color:var(--adm-text-muted);">Define o tema visual padrão que será exibido aos visitantes do site que ainda não escolheram uma preferência.</small>
             </div>
             <div class="form-group form-span-2">
                 <label class="checkbox-label">

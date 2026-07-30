@@ -204,12 +204,12 @@ a:hover {
     align-items: center;
     justify-content: space-between;
     padding: 0.75rem 1.5rem;
-    background: rgba(13, 17, 23, 0.7);
+    background: var(--header-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-xl);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--shadow-md);
     margin-top: 1rem;
     transition: var(--transition-normal);
 }
@@ -305,7 +305,7 @@ a:hover {
     left: 0;
     margin-top: 0.5rem;
     min-width: 240px;
-    background: rgba(22, 27, 34, 0.95);
+    background: var(--bg-surface);
     backdrop-filter: var(--backdrop-blur);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -447,8 +447,8 @@ a:hover {
     position: absolute;
     inset: 0;
     background: 
-        linear-gradient(to bottom, rgba(6, 11, 22, 0.4) 0%, rgba(6, 11, 22, 0.7) 60%, var(--bg-main) 100%),
-        linear-gradient(to right, rgba(6, 11, 22, 0.95) 20%, rgba(6, 11, 22, 0.6) 60%, transparent 100%),
+        var(--hero-gradient-bottom),
+        var(--hero-gradient-right),
         url('/assets/img/hero_gravata_jornalistico.jpg?v=2') center/cover no-repeat;
     pointer-events: none;
 }
