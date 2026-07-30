@@ -103,7 +103,9 @@ ob_start();
                 <tr>
                     <td><span class="text-muted text-sm">#<?= (int)$c['id'] ?></span></td>
                     <td>
-                        <strong><?= e($c['nome']) ?></strong>
+                        <a href="<?= base_url('/admin/curriculos/visualizar.php?id=' . (int)$c['id']) ?>" style="color: var(--color-primary); text-decoration: none; font-weight: 600;">
+                            <?= e($c['nome']) ?>
+                        </a>
                         <?php if (!empty($c['e_mail'])): ?>
                         <br><small class="text-muted"><?= e($c['e_mail']) ?></small>
                         <?php endif; ?>
@@ -113,14 +115,17 @@ ob_start();
                     <td><?= e(truncate($c['nome_projeto'] ?? '—', 38)) ?></td>
                     <td><span class="text-muted text-sm"><?= $c['created_at'] ? format_date(substr($c['created_at'], 0, 10)) : '—' ?></span></td>
                     <td style="text-align:center;">
-                        <?php $arq = !empty($c['arquivo_curriculo']) ? $c['arquivo_curriculo'] : ($c['id'] . '.pdf'); ?>
-                        <?php if (!empty($arq)): ?>
-                        <a href="/uploads/curriculos/<?= e($arq) ?>" target="_blank" class="btn btn-outline btn-sm" title="Abrir PDF do Currículo">
-                            📄 PDF
-                        </a>
-                        <?php else: ?>
-                        <span class="text-muted">—</span>
-                        <?php endif; ?>
+                        <div style="display: flex; gap: 0.4rem; justify-content: center; align-items: center;">
+                            <a href="<?= base_url('/admin/curriculos/visualizar.php?id=' . (int)$c['id']) ?>" class="btn btn-outline btn-sm" title="Ver detalhes completos" style="padding: 0.25rem 0.5rem; font-size: 0.775rem;">
+                                Detalhes
+                            </a>
+                            <?php $arq = !empty($c['arquivo_curriculo']) ? $c['arquivo_curriculo'] : ($c['id'] . '.pdf'); ?>
+                            <?php if (!empty($arq)): ?>
+                            <a href="/uploads/curriculos/<?= e($arq) ?>" target="_blank" class="btn btn-outline btn-sm" title="Abrir PDF do Currículo" style="padding: 0.25rem 0.5rem; font-size: 0.775rem;">
+                                PDF
+                            </a>
+                            <?php endif; ?>
+                        </div>
                     </td>
                 </tr>
                 <?php endforeach; ?>
