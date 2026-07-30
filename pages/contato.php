@@ -42,10 +42,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $enviado = send_contact_mail($nome, $email, $telefone, $mensagem);
         if ($enviado) {
             flash('success', 'Mensagem enviada com sucesso! Retornaremos em breve.');
+            redirect('/contato');
         } else {
             flash('error', 'Erro ao enviar mensagem. Tente novamente ou contate-nos por telefone.');
         }
-        redirect('/contato');
+    }
+
+    if (!empty($erros)) {
+        $_SESSION['old']['nome'] = $nome;
+        $_SESSION['old']['email'] = $email;
+        $_SESSION['old']['telefone'] = $telefone;
+        $_SESSION['old']['assunto'] = $assunto;
+        $_SESSION['old']['mensagem'] = $mensagem;
     }
 }
 
@@ -67,9 +75,14 @@ ob_start();
 <section class="section" id="contato">
     <div class="container">
 
+        <div id="js-form-errors" class="alert alert-error mb-6" style="display:none;" role="alert">
+            <strong>Por favor, corrija os campos apontados abaixo:</strong>
+            <ul id="js-errors-list"></ul>
+        </div>
+
         <?php if (!empty($erros)): ?>
-        <div class="alert alert-error" role="alert">
-            <strong>Corrija os erros abaixo:</strong>
+        <div class="alert alert-error mb-6" role="alert">
+            <strong>Por favor, corrija os erros abaixo:</strong>
             <ul>
                 <?php foreach ($erros as $erro): ?>
                 <li><?= e($erro) ?></li>
@@ -82,7 +95,7 @@ ob_start();
             <!-- FORMULÁRIO -->
             <div class="contact-form-wrap fade-in-up">
                 <h2 class="form-title">Envie sua mensagem</h2>
-                <form method="POST" action="/contato" id="form-contato" novalidate>
+                <form method="POST" action="/contato" id="form-contato">
                     <?= csrf_field() ?>
 
                     <div class="form-group">

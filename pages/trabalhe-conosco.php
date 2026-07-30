@@ -54,8 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'experiencia_profissional' => trim($_POST['experiencia_profissional'] ?? ''),
     ];
 
-    // Validações
-    if (empty($dados['nome']))          $erros[] = 'Nome é obrigatório.';
+    // Validações básicas
+    if (empty($dados['nome']))          $erros[] = 'Nome completo é obrigatório.';
     if (empty($dados['sexo']))          $erros[] = 'Sexo é obrigatório.';
     if (empty($dados['data_nascimento'])) $erros[] = 'Data de nascimento é obrigatória.';
     if (empty($dados['telefone_1']))    $erros[] = 'Telefone principal é obrigatório.';
@@ -67,26 +67,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$dados['id_projeto'])          $erros[] = 'Selecione um projeto.';
     if (!$dados['id_funcao'])           $erros[] = 'Selecione uma função/cargo.';
     if (empty($dados['escolaridade']))  $erros[] = 'Escolaridade é obrigatória.';
-    if (!isset($_FILES['arquivo_curriculo']) || $_FILES['arquivo_curriculo']['error'] !== UPLOAD_ERR_OK) {
+
+    // Gerenciamento de Upload e Preservação de PDF Temporário
+    $temp_pdf_path = trim($_POST['temp_pdf_path'] ?? '');
+    $temp_pdf_name = trim($_POST['temp_pdf_name'] ?? '');
+
+    $temp_dir = UPLOAD_PATH . '/temp';
+    if (!is_dir($temp_dir)) @mkdir($temp_dir, 0755, true);
+
+    if (isset($_FILES['arquivo_curriculo']) && $_FILES['arquivo_curriculo']['error'] === UPLOAD_ERR_OK) {
+        $upload = upload_file($_FILES['arquivo_curriculo'], $temp_dir, ['pdf']);
+        if ($upload['success']) {
+            $temp_pdf_path = 'temp/' . $upload['filename'];
+            $temp_pdf_name = $_FILES['arquivo_curriculo']['name'];
+        } else {
+            $erros[] = 'Erro no upload do currículo: ' . $upload['error'];
+        }
+    } elseif (!empty($temp_pdf_path) && file_exists(UPLOAD_PATH . '/' . $temp_pdf_path)) {
+        // Arquivo temporário preservado de envio anterior
+    } else {
         $erros[] = 'Envio do currículo em PDF é obrigatório.';
     }
 
     if (empty($erros)) {
-        // Upload do PDF
-        $upload = upload_file($_FILES['arquivo_curriculo'], UPLOAD_PATH . '/curriculos', ['pdf']);
-        if (!$upload['success']) {
-            $erros[] = 'Erro no upload do currículo: ' . $upload['error'];
-        } else {
-            $dados['arquivo_curriculo'] = $upload['filename'];
+        // Mover arquivo temporário para a pasta definitiva de currículos
+        $pasta_curriculos = UPLOAD_PATH . '/curriculos';
+        if (!is_dir($pasta_curriculos)) @mkdir($pasta_curriculos, 0755, true);
+
+        $nome_definitivo = uniqid('curriculo_') . '.pdf';
+        $caminho_origem = UPLOAD_PATH . '/' . $temp_pdf_path;
+        $caminho_destino = $pasta_curriculos . '/' . $nome_definitivo;
+
+        if (file_exists($caminho_origem) && rename($caminho_origem, $caminho_destino)) {
+            $dados['arquivo_curriculo'] = $nome_definitivo;
             db_insert('tab_curriculos', $dados);
+            
+            unset($_SESSION['old']);
             flash('success', 'Currículo enviado com sucesso! Entraremos em contato em breve.');
             redirect('/trabalhe-conosco');
+        } else {
+            $erros[] = 'Erro ao salvar o arquivo de currículo. Por favor, anexe o PDF novamente.';
         }
     }
 
-    // Repopular dados antigos em caso de erro
+    // Repopular todos os dados digitados e arquivo em caso de erro
     foreach ($dados as $k => $v) {
         $_SESSION['old'][$k] = $v;
+    }
+    if (!empty($temp_pdf_path)) {
+        $_SESSION['old']['temp_pdf_path'] = $temp_pdf_path;
+        $_SESSION['old']['temp_pdf_name'] = $temp_pdf_name;
     }
 }
 
@@ -107,8 +137,13 @@ ob_start();
 <section class="section" id="candidatura">
     <div class="container container-narrow">
 
+        <div id="js-form-errors" class="alert alert-error mb-6" style="display:none;" role="alert">
+            <strong>Por favor, corrija os campos apontados abaixo:</strong>
+            <ul id="js-errors-list"></ul>
+        </div>
+
         <?php if (!empty($erros)): ?>
-        <div class="alert alert-error" role="alert">
+        <div class="alert alert-error mb-6" role="alert">
             <strong>Por favor, corrija os erros abaixo:</strong>
             <ul>
                 <?php foreach ($erros as $erro): ?><li><?= e($erro) ?></li><?php endforeach; ?>
@@ -117,7 +152,7 @@ ob_start();
         <?php endif; ?>
 
         <div class="form-card fade-in-up">
-            <form method="POST" action="/trabalhe-conosco" enctype="multipart/form-data" id="form-curriculo" novalidate>
+            <form method="POST" action="/trabalhe-conosco" enctype="multipart/form-data" id="form-curriculo">
                 <?= csrf_field() ?>
 
                 <!-- DADOS PESSOAIS -->
@@ -369,7 +404,7 @@ ob_start();
                         <label for="arquivo_curriculo" class="form-label">Arquivo PDF do currículo <span class="required">*</span></label>
                         <div class="file-upload-area">
                             <input type="file" id="arquivo_curriculo" name="arquivo_curriculo"
-                                   accept=".pdf" required
+                                   accept=".pdf" <?= !empty(old('temp_pdf_path')) ? '' : 'required' ?>
                                    data-accept="pdf" data-max-mb="16"
                                    data-nome-alvo="#nome-arquivo-curriculo">
                             <label for="arquivo_curriculo" class="file-upload-label">
@@ -377,7 +412,16 @@ ob_start();
                                 <span>Clique para selecionar ou arraste o PDF aqui</span>
                                 <small>Formato: PDF | Tamanho máximo: 16MB</small>
                             </label>
-                            <span id="nome-arquivo-curriculo" class="file-name">Nenhum arquivo selecionado</span>
+                            <span id="nome-arquivo-curriculo" class="file-name">
+                                <?= !empty(old('temp_pdf_name')) ? 'PDF Salvo: ' . e(old('temp_pdf_name')) : 'Nenhum arquivo selecionado' ?>
+                            </span>
+                            <?php if (!empty(old('temp_pdf_path'))): ?>
+                                <input type="hidden" name="temp_pdf_path" value="<?= e(old('temp_pdf_path')) ?>">
+                                <input type="hidden" name="temp_pdf_name" value="<?= e(old('temp_pdf_name')) ?>">
+                                <div style="color:var(--color-success); font-size:0.875rem; font-weight:600; margin-top:0.5rem; display:flex; align-items:center; gap:0.4rem;">
+                                    <span>✓ Currículo salvo anteriormente: <strong><?= e(old('temp_pdf_name')) ?></strong> (Se desejar, pode selecionar outro para substituir)</span>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

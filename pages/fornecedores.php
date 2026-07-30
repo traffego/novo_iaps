@@ -65,15 +65,20 @@ ob_start();
 <section class="section" id="fornecedores">
     <div class="container container-narrow">
 
+        <div id="js-form-errors" class="alert alert-error mb-6" style="display:none;" role="alert">
+            <strong>Por favor, corrija os campos apontados abaixo:</strong>
+            <ul id="js-errors-list"></ul>
+        </div>
+
         <?php if (!empty($erros)): ?>
-        <div class="alert alert-error" role="alert">
+        <div class="alert alert-error mb-6" role="alert">
             <strong>Por favor, corrija os erros abaixo:</strong>
             <ul><?php foreach ($erros as $e): ?><li><?= e($e) ?></li><?php endforeach; ?></ul>
         </div>
         <?php endif; ?>
 
         <div class="form-card fade-in-up">
-            <form method="POST" action="/fornecedores" id="form-fornecedor" novalidate>
+            <form method="POST" action="/fornecedores" id="form-fornecedor">
                 <?= csrf_field() ?>
 
                 <!-- DADOS DA EMPRESA -->

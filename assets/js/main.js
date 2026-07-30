@@ -231,11 +231,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (selectProjeto.value) {
-            carregarFuncoes(selectProjeto.value);
+            carregarFuncoes(selectProjeto.value, selectFuncao.getAttribute('data-valor-antigo'));
         }
     }
 
     iniciarSelectFuncoes();
+
+    // =============================================
+    // VALIDAÇÃO CLIENT-SIDE E PRESERVAÇÃO DE CAMPOS
+    // =============================================
+    function iniciarValidacaoFormularios() {
+        const formularios = document.querySelectorAll('#form-curriculo, #form-fornecedor, #form-contato');
+        
+        formularios.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const containerErros = document.getElementById('js-form-errors');
+                const listaErros = document.getElementById('js-errors-list');
+                const erros = [];
+
+                // Remover destaques anteriores
+                form.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
+
+                // Validação de campos obrigatórios
+                form.querySelectorAll('[required]').forEach(campo => {
+                    // Se for campo de arquivo PDF com temporario preservado, ignorar
+                    if (campo.type === 'file' && form.querySelector('input[name="temp_pdf_path"]')) {
+                        return;
+                    }
+
+                    if (!campo.value || campo.value.trim() === '') {
+                        campo.classList.add('has-error');
+                        const label = form.querySelector(`label[for="${campo.id}"]`);
+                        const nomeCampo = label ? label.textContent.replace('*', '').trim() : 'Campo obrigatório';
+                        erros.push(`${nomeCampo} é de preenchimento obrigatório.`);
+                    } else if (campo.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(campo.value)) {
+                        campo.classList.add('has-error');
+                        erros.push('Por favor, informe um e-mail válido.');
+                    }
+                });
+
+                if (erros.length > 0) {
+                    e.preventDefault();
+
+                    if (containerErros && listaErros) {
+                        listaErros.innerHTML = erros.map(msg => `<li>${msg}</li>`).join('');
+                        containerErros.style.display = 'block';
+                        containerErros.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        alert('Por favor, preencha todos os campos obrigatórios antes de enviar.');
+                    }
+
+                    const primeiroErro = form.querySelector('.has-error');
+                    if (primeiroErro) primeiroErro.focus();
+                } else if (containerErros) {
+                    containerErros.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    iniciarValidacaoFormularios();
 
     // =============================================
     // CAMPOS CONDICIONAIS (RADIO → MOSTRAR/OCULTAR)
