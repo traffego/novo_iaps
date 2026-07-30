@@ -45,63 +45,115 @@ $docs = db_fetch_all('SELECT * FROM tab_documentos_financeiro ORDER BY data_docu
 
 ob_start();
 ?>
-<div class="admin-forms-grid">
+<!-- Header da Página -->
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Documentos Financeiros</h1>
+        <p class="page-subtitle">Gestão de balanços, relatórios contábeis e demonstrações financeiras em PDF</p>
+    </div>
+</div>
+
+<!-- Abas de Navegação de Transparência -->
+<div class="card mb-6" style="padding: 0.5rem 0.75rem;">
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+        <a href="/admin/transparencia/financeiro.php" class="btn btn-primary btn-sm">
+            📄 Documentos Financeiros (<?= count($docs) ?>)
+        </a>
+        <a href="/admin/transparencia/termos.php" class="btn btn-secondary btn-sm">
+            📜 Termos de Colaboração
+        </a>
+        <a href="/admin/transparencia/painel.php" class="btn btn-secondary btn-sm">
+            📁 Painel de Anexos e Imagens
+        </a>
+    </div>
+</div>
+
+<div class="stats-grid" style="grid-template-columns: 1fr 340px;">
     <!-- Lista -->
-    <div class="admin-card">
-        <h3 class="admin-card-title">Documentos Cadastrados (<?= count($docs) ?>)</h3>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Documentos Financeiros Cadastrados (<?= count($docs) ?>)</h3>
+        </div>
         <?php if (empty($docs)): ?>
-        <p class="text-muted">Nenhum documento cadastrado.</p>
+        <div class="card-body text-center text-muted py-8">
+            Nenhum documento financeiro cadastrado ainda.
+        </div>
         <?php else: ?>
-        <table class="data-table">
-            <thead><tr><th>Data</th><th>Título</th><th>Arquivo</th><th>Ação</th></tr></thead>
-            <tbody>
-                <?php foreach ($docs as $d): ?>
-                <tr>
-                    <td><?= format_date($d['data_documento']) ?></td>
-                    <td>
-                        <strong><?= e($d['titulo']) ?></strong>
-                        <?php if ($d['resumo']): ?><br><small class="text-muted"><?= e(truncate($d['resumo'], 60)) ?></small><?php endif; ?>
-                    </td>
-                    <td><a href="/uploads/transparencia/<?= e($d['arquivo']) ?>" target="_blank" class="btn btn-ghost btn-sm">Ver</a></td>
-                    <td>
-                        <form method="POST" style="display:inline">
-                            <?= csrf_field() ?>
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="doc_id" value="<?= $d['id'] ?>">
-                            <button type="submit" class="btn btn-danger btn-sm" data-confirm="Excluir este documento?">Excluir</button>
-                        </form>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width:110px">Data</th>
+                        <th>Título / Resumo</th>
+                        <th style="width:80px">Arquivo</th>
+                        <th style="width:80px; text-align:right;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($docs as $d): ?>
+                    <tr>
+                        <td><span class="text-muted text-sm"><?= format_date($d['data_documento']) ?></span></td>
+                        <td>
+                            <strong><?= e($d['titulo']) ?></strong>
+                            <?php if ($d['resumo']): ?><br><small class="text-muted"><?= e(truncate($d['resumo'], 70)) ?></small><?php endif; ?>
+                        </td>
+                        <td>
+                            <a href="/uploads/transparencia/<?= e($d['arquivo']) ?>" target="_blank" class="btn btn-outline btn-sm" title="Abrir PDF">
+                                📄 PDF
+                            </a>
+                        </td>
+                        <td style="text-align:right;">
+                            <form method="POST" style="display:inline" onsubmit="return confirm('Confirma a exclusão deste documento?');">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="doc_id" value="<?= $d['id'] ?>">
+                                <button type="submit" class="btn btn-ghost text-danger btn-sm">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
         <?php endif; ?>
     </div>
 
     <!-- Adicionar -->
-    <div class="admin-card">
-        <h3 class="admin-card-title">➕ Novo Documento</h3>
-        <form method="POST" enctype="multipart/form-data">
-            <?= csrf_field() ?>
-            <input type="hidden" name="action" value="add">
-            <div class="form-group">
-                <label for="data_documento" class="form-label">Data <span class="required">*</span></label>
-                <input type="date" id="data_documento" name="data_documento" class="form-input" required value="<?= date('Y-m-d') ?>">
-            </div>
-            <div class="form-group">
-                <label for="titulo" class="form-label">Título <span class="required">*</span></label>
-                <input type="text" id="titulo" name="titulo" class="form-input" required placeholder="Ex: Relatório Financeiro 2024">
-            </div>
-            <div class="form-group">
-                <label for="resumo" class="form-label">Resumo</label>
-                <textarea id="resumo" name="resumo" class="form-textarea" rows="2" placeholder="Breve descrição..."></textarea>
-            </div>
-            <div class="form-group">
-                <label for="arquivo_fin" class="form-label">Arquivo PDF <span class="required">*</span></label>
-                <input type="file" id="arquivo_fin" name="arquivo" class="form-input" accept=".pdf" required data-accept="pdf">
-            </div>
-            <button type="submit" class="btn btn-primary">Adicionar Documento</button>
-        </form>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">➕ Adicionar Documento</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                <?= csrf_field() ?>
+                <input type="hidden" name="action" value="add">
+                
+                <div class="form-group">
+                    <label for="data_documento" class="form-label">Data do Documento *</label>
+                    <input type="date" id="data_documento" name="data_documento" class="form-input" required value="<?= date('Y-m-d') ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="titulo" class="form-label">Título do Documento *</label>
+                    <input type="text" id="titulo" name="titulo" class="form-input" required placeholder="Ex: Balanço Patrimonial 2024">
+                </div>
+
+                <div class="form-group">
+                    <label for="resumo" class="form-label">Resumo / Descrição</label>
+                    <textarea id="resumo" name="resumo" class="form-textarea" rows="3" placeholder="Descrição opcional..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="arquivo_fin" class="form-label">Arquivo PDF *</label>
+                    <input type="file" id="arquivo_fin" name="arquivo" class="form-input" accept=".pdf" required>
+                    <small class="text-muted text-sm">Formato aceito: .PDF</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%;">
+                    <span>Salvar Documento</span>
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 

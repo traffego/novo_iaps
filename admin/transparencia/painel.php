@@ -48,58 +48,101 @@ rsort($arquivos);
 
 ob_start();
 ?>
-<div class="admin-forms-grid">
+<!-- Header da Página -->
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Painel de Anexos & Imagens</h1>
+        <p class="page-subtitle">Repositório de anexos gerais, planilhas e comprovantes para transparência pública</p>
+    </div>
+</div>
+
+<!-- Abas de Navegação de Transparência -->
+<div class="card mb-6" style="padding: 0.5rem 0.75rem;">
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+        <a href="/admin/transparencia/financeiro.php" class="btn btn-secondary btn-sm">
+            📄 Documentos Financeiros
+        </a>
+        <a href="/admin/transparencia/termos.php" class="btn btn-secondary btn-sm">
+            📜 Termos de Colaboração
+        </a>
+        <a href="/admin/transparencia/painel.php" class="btn btn-primary btn-sm">
+            📁 Painel de Anexos e Imagens (<?= count($arquivos) ?>)
+        </a>
+    </div>
+</div>
+
+<div class="stats-grid" style="grid-template-columns: 1fr 340px;">
     <!-- Lista de arquivos -->
-    <div class="admin-card">
-        <h3 class="admin-card-title">Arquivos Publicados (<?= count($arquivos) ?>)</h3>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Arquivos Publicados (<?= count($arquivos) ?>)</h3>
+        </div>
         <?php if (empty($arquivos)): ?>
-        <p class="text-muted">Nenhum arquivo publicado.</p>
+        <div class="card-body text-center text-muted py-8">
+            Nenhum arquivo anexado até o momento.
+        </div>
         <?php else: ?>
-        <table class="data-table">
-            <thead><tr><th>Arquivo</th><th>Tipo</th><th>Tamanho</th><th>Ações</th></tr></thead>
-            <tbody>
-                <?php foreach ($arquivos as $a): ?>
-                <tr>
-                    <td>
-                        <?php if (in_array($a['ext'], ['jpg','jpeg','png'])): ?>
-                        <img src="<?= e($a['url']) ?>" alt="" style="height:40px;border-radius:4px;vertical-align:middle;margin-right:.5rem">
-                        <?php endif; ?>
-                        <?= e($a['nome']) ?>
-                    </td>
-                    <td><span class="badge badge-secondary"><?= strtoupper($a['ext']) ?></span></td>
-                    <td><?= round($a['tamanho'] / 1024) ?> KB</td>
-                    <td class="actions">
-                        <a href="<?= e($a['url']) ?>" target="_blank" class="btn btn-ghost btn-sm">Ver</a>
-                        <form method="POST" style="display:inline">
-                            <?= csrf_field() ?>
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="arquivo" value="<?= e($a['nome']) ?>">
-                            <button type="submit" class="btn btn-danger btn-sm" data-confirm="Remover este arquivo?">Remover</button>
-                        </form>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Arquivo</th>
+                        <th style="width:80px">Tipo</th>
+                        <th style="width:90px">Tamanho</th>
+                        <th style="width:140px; text-align:right;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($arquivos as $a): ?>
+                    <tr>
+                        <td>
+                            <?php if (in_array($a['ext'], ['jpg','jpeg','png'])): ?>
+                            <img src="<?= e($a['url']) ?>" alt="" style="height:32px; width:32px; object-fit:cover; border-radius:4px; vertical-align:middle; margin-right:.5rem;">
+                            <?php endif; ?>
+                            <strong><?= e($a['nome']) ?></strong>
+                        </td>
+                        <td><span class="badge badge-secondary"><?= strtoupper($a['ext']) ?></span></td>
+                        <td><span class="text-muted text-sm"><?= round($a['tamanho'] / 1024) ?> KB</span></td>
+                        <td style="text-align:right;">
+                            <div style="display:flex; gap:0.35rem; justify-content:flex-end;">
+                                <a href="<?= e($a['url']) ?>" target="_blank" class="btn btn-outline btn-sm">Ver</a>
+                                <form method="POST" style="display:inline" onsubmit="return confirm('Confirma a remoção deste arquivo?');">
+                                    <?= csrf_field() ?>
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="arquivo" value="<?= e($a['nome']) ?>">
+                                    <button type="submit" class="btn btn-ghost text-danger btn-sm">Remover</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
         <?php endif; ?>
     </div>
 
     <!-- Upload -->
-    <div class="admin-card">
-        <h3 class="admin-card-title">📤 Enviar Arquivo</h3>
-        <p class="text-muted text-sm">O arquivo será renomeado automaticamente com a data de hoje no início do nome.</p>
-        <form method="POST" enctype="multipart/form-data">
-            <?= csrf_field() ?>
-            <input type="hidden" name="action" value="upload">
-            <div class="form-group">
-                <label for="arquivo_painel" class="form-label">Arquivo <span class="required">*</span></label>
-                <input type="file" id="arquivo_painel" name="arquivo" class="form-input" required
-                       accept=".jpg,.jpeg,.png,.xlsx,.xls,.pdf"
-                       data-accept="jpg,jpeg,png,xlsx,xls,pdf">
-                <small class="form-hint">Formatos aceitos: JPG, PNG, XLSX, XLS, PDF</small>
-            </div>
-            <button type="submit" class="btn btn-primary">Enviar Arquivo</button>
-        </form>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">📤 Enviar Anexo</h3>
+        </div>
+        <div class="card-body">
+            <p class="text-muted text-sm mb-4">O arquivo receberá um carimbo de data automaticamente.</p>
+            <form method="POST" enctype="multipart/form-data">
+                <?= csrf_field() ?>
+                <input type="hidden" name="action" value="upload">
+                <div class="form-group">
+                    <label for="arquivo_painel" class="form-label">Arquivo *</label>
+                    <input type="file" id="arquivo_painel" name="arquivo" class="form-input" required
+                           accept=".jpg,.jpeg,.png,.xlsx,.xls,.pdf">
+                    <small class="text-muted text-sm" style="display:block; margin-top:0.35rem;">Formatos: JPG, PNG, XLSX, XLS, PDF</small>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">
+                    <span>Enviar Arquivo</span>
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 
