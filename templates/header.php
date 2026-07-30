@@ -22,7 +22,7 @@ try {
                 </div>
             </a>
 
-            <div class="navbar-collapse" id="navbar-collapse">
+            <div class="navbar-collapse" id="mobile-menu">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a href="/quem-somos" class="nav-link"><i data-lucide="info"></i> Quem Somos</a></li>
                     <li class="nav-item"><a href="/projetos" class="nav-link"><i data-lucide="trophy"></i> Projetos</a></li>

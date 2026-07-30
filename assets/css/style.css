@@ -58,6 +58,9 @@
     --radius-full: 9999px;
     --backdrop-blur: blur(20px) saturate(180%);
 
+    --hero-gradient-bottom: linear-gradient(to bottom, rgba(248, 250, 252, 0.4) 0%, rgba(248, 250, 252, 0.85) 60%, var(--bg-main) 100%);
+    --hero-gradient-right: linear-gradient(to right, rgba(248, 250, 252, 0.96) 25%, rgba(248, 250, 252, 0.75) 60%, rgba(248, 250, 252, 0.3) 100%);
+
     /* Shadows */
     --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.04);
     --shadow-md: 0 8px 24px -6px rgba(15, 23, 42, 0.08);
@@ -86,6 +89,9 @@ html.dark, body.dark {
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
     --border-color: rgba(255, 255, 255, 0.12);
+
+    --hero-gradient-bottom: linear-gradient(to bottom, rgba(6, 11, 22, 0.4) 0%, rgba(6, 11, 22, 0.7) 60%, var(--bg-main) 100%);
+    --hero-gradient-right: linear-gradient(to right, rgba(6, 11, 22, 0.95) 20%, rgba(6, 11, 22, 0.6) 60%, transparent 100%);
 
     /* Logo Container Invertido */
     --logo-container-bg: linear-gradient(135deg, #ffffff, #e2e8f0);
@@ -363,10 +369,57 @@ a:hover {
 }
 
 @media (max-width: 992px) {
+    .navbar-toggler {
+        display: flex;
+    }
+
     .navbar-collapse {
         display: none;
+        position: absolute;
+        top: 100%;
+        left: 1rem;
+        right: 1rem;
+        margin-top: 0.5rem;
+        background: var(--bg-surface);
+        backdrop-filter: var(--backdrop-blur);
+        -webkit-backdrop-filter: var(--backdrop-blur);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        padding: 1rem;
+        box-shadow: var(--shadow-lg);
+        z-index: 1050;
     }
-    .navbar-toggler {
+
+    .navbar-collapse.active,
+    .navbar-collapse.show {
+        display: block !important;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.35rem;
+    }
+
+    .nav-link {
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius-md);
+        width: 100%;
+        color: var(--text-main);
+    }
+
+    .nav-item.dropdown .dropdown-menu {
+        position: static;
+        display: none;
+        box-shadow: none;
+        background: var(--color-primary-alpha);
+        border: 1px solid var(--border-color);
+        margin-top: 0.25rem;
+        padding: 0.5rem;
+    }
+
+    .nav-item.dropdown:hover .dropdown-menu,
+    .nav-item.dropdown.active .dropdown-menu {
         display: flex;
     }
 }
