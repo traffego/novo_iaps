@@ -35,7 +35,7 @@ $meta_desc = $page_description ?? 'Instituto Atleta Para Sempre - Promovendo inc
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox@3.3.0/dist/css/glightbox.min.css">
 
     <!-- CSS Principal (Glacier Design) -->
-    <link rel="stylesheet" href="<?= asset('assets/css/style.css') ?>">
+    <link rel="stylesheet" href="<?= asset('assets/css/style.css') ?>?v=<?= file_exists(ROOT_PATH . '/assets/css/style.css') ? filemtime(ROOT_PATH . '/assets/css/style.css') : time() ?>">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?= asset('assets/imgs/favicon.ico') ?>">
