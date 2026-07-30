@@ -1759,6 +1759,12 @@ a:hover {
     }
 }
 
+/* Spacing Utilities */
+.mb-4 { margin-bottom: 1rem !important; }
+.mb-6 { margin-bottom: 1.5rem !important; }
+.mb-8 { margin-bottom: 2.5rem !important; }
+.mb-10 { margin-bottom: 3rem !important; }
+
 /* Transparency Banner Card */
 .transp-banner-card {
     display: flex;
@@ -1770,6 +1776,7 @@ a:hover {
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-sm);
     transition: var(--transition-normal);
+    margin-bottom: 2.5rem;
 }
 
 .t-banner-icon {
