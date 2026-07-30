@@ -375,15 +375,15 @@ a:hover {
 .hero {
     position: relative;
     width: 100%;
-    padding: 9.5rem 0 6rem 0;
-    background: var(--bg-surface);
+    padding: 13rem 0 9.5rem 0;
+    background: #0d1117;
     border: none;
     border-bottom: 1px solid var(--border-color);
     border-radius: 0;
     box-shadow: var(--shadow-lg);
     margin-bottom: 3rem;
     overflow: hidden;
-    min-height: 82vh;
+    min-height: 94vh;
     display: flex;
     align-items: center;
 }
@@ -391,7 +391,10 @@ a:hover {
 .hero-bg {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, rgba(13, 17, 23, 0.94) 22%, rgba(13, 17, 23, 0.72) 60%, rgba(13, 17, 23, 0.4) 100%), url('/assets/img/hero_bg.jpg') center/cover no-repeat;
+    background: 
+        linear-gradient(to bottom, rgba(13, 17, 23, 0.4) 0%, rgba(13, 17, 23, 0.65) 60%, #0d1117 100%),
+        linear-gradient(to right, rgba(13, 17, 23, 0.95) 20%, rgba(13, 17, 23, 0.6) 60%, rgba(13, 17, 23, 0.25) 100%),
+        url('/assets/img/hero_bg.jpg') center/cover no-repeat;
     pointer-events: none;
 }
 
