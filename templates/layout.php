@@ -64,12 +64,15 @@ try {
 <body class="dark">
     <?php include ROOT_PATH . '/templates/header.php'; ?>
 
-    <main id="main-content">
-        <!-- Flash Messages -->
+    <!-- Fixed Flash Toast Messages -->
+    <div class="flash-container">
         <?php if ($flash_success = flash('success')): ?>
             <div class="flash-message flash-success" role="alert">
                 <i data-lucide="check-circle-2"></i>
-                <span><?= e($flash_success) ?></span>
+                <div>
+                    <strong>Sucesso!</strong>
+                    <p><?= e($flash_success) ?></p>
+                </div>
                 <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Fechar">&times;</button>
             </div>
         <?php endif; ?>
@@ -77,11 +80,16 @@ try {
         <?php if ($flash_error = flash('error')): ?>
             <div class="flash-message flash-error" role="alert">
                 <i data-lucide="alert-triangle"></i>
-                <span><?= e($flash_error) ?></span>
+                <div>
+                    <strong>Atenção!</strong>
+                    <p><?= e($flash_error) ?></p>
+                </div>
                 <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Fechar">&times;</button>
             </div>
         <?php endif; ?>
+    </div>
 
+    <main id="main-content">
         <?= $content ?? '' ?>
     </main>
 

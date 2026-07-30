@@ -952,37 +952,81 @@ a:hover {
     color: var(--text-muted);
 }
 
-/* Alertas & Flash Messages */
-.alert, .flash-message {
-    padding: 1rem 1.25rem;
-    border-radius: var(--radius-md);
-    font-size: 0.875rem;
-    margin-bottom: 1.5rem;
+/* Alertas & Flash Messages Fixos no Topo */
+.flash-container {
+    position: fixed;
+    top: 90px;
+    right: 24px;
+    z-index: 99999;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 0.75rem;
-    backdrop-filter: blur(12px);
+    max-width: 460px;
+    width: calc(100% - 48px);
+    pointer-events: none;
 }
 
-.alert-error, .flash-error {
-    background: rgba(220, 38, 38, 0.1);
-    border: 1px solid rgba(220, 38, 38, 0.3);
-    color: #ef4444;
+.flash-message {
+    pointer-events: auto;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-lg);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(16px);
+    animation: slideInDown 0.35s ease-out forwards;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.alert-success, .flash-success {
-    background: rgba(5, 150, 105, 0.1);
-    border: 1px solid rgba(5, 150, 105, 0.3);
-    color: #10b981;
+.flash-message p {
+    margin: 0.15rem 0 0 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.flash-message strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.flash-success {
+    background: rgba(6, 78, 59, 0.95);
+    border: 1px solid rgba(16, 185, 129, 0.5);
+    color: #ffffff;
+}
+
+.flash-error {
+    background: rgba(127, 29, 29, 0.95);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    color: #ffffff;
 }
 
 .flash-close {
     margin-left: auto;
     background: transparent;
     border: none;
-    color: inherit;
-    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.4rem;
+    line-height: 1;
     cursor: pointer;
+    padding: 0;
+}
+
+.flash-close:hover {
+    color: #ffffff;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ==========================================================================

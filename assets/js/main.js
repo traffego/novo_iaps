@@ -283,8 +283,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const primeiroErro = form.querySelector('.has-error');
                     if (primeiroErro) primeiroErro.focus();
-                } else if (containerErros) {
-                    containerErros.style.display = 'none';
+                } else {
+                    if (containerErros) containerErros.style.display = 'none';
+                    
+                    // Exibir estado de carregamento no botão de envio
+                    const btnSubmit = form.querySelector('button[type="submit"]');
+                    if (btnSubmit) {
+                        btnSubmit.disabled = true;
+                        btnSubmit.style.opacity = '0.75';
+                        btnSubmit.innerHTML = `<span class="btn-spinner" style="display:inline-block; width:16px; height:16px; border:2px solid currentColor; border-top-color:transparent; border-radius:50%; animation:spin 0.6s linear infinite; margin-right:8px; vertical-align:middle;"></span> Enviando dados, aguarde...`;
+                    }
                 }
             });
         });
