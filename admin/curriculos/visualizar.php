@@ -15,12 +15,11 @@ if (!$id) {
 }
 
 $curriculo = db_fetch(
-    "SELECT c.*, f.funcao, p.nome_projeto, est.nome AS nome_estado, cid.nome AS nome_cidade
+    "SELECT c.*, f.funcao, p.nome_projeto, est.nome AS nome_estado, c.cidade AS nome_cidade
      FROM tab_curriculos c
      LEFT JOIN tab_curriculos_funcao f ON c.id_funcao = f.id
      LEFT JOIN tab_projetos p ON c.id_projeto = p.id
      LEFT JOIN estado est ON c.estado = est.idUf
-     LEFT JOIN cidade cid ON c.cidade = cid.id
      WHERE c.id = ?",
     [$id]
 );
