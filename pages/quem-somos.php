@@ -42,7 +42,7 @@ ob_start();
             <div class="about-visual">
                 <div class="card patrono-card">
                     <div class="patrono-image-wrapper">
-                        <img src="/assets/img/ricardo_rocha.jpg" alt="Ricardo Rocha - Patrono do Instituto Atleta para Sempre" class="patrono-img">
+                        <img src="<?= asset('assets/img/ricardo_rocha_oficial.jpg') ?>?v=<?= file_exists(ROOT_PATH . '/assets/img/ricardo_rocha_oficial.jpg') ? filemtime(ROOT_PATH . '/assets/img/ricardo_rocha_oficial.jpg') : time() ?>" alt="Ricardo Rocha - Patrono do Instituto Atleta para Sempre" class="patrono-img">
                         <div class="patrono-badge">
                             <span>🏆 Patrono Institucional</span>
                         </div>
