@@ -37,8 +37,17 @@ $meta_desc = $page_description ?? 'Instituto Atleta Para Sempre - Promovendo inc
     <!-- CSS Principal (Glacier Design) -->
     <link rel="stylesheet" href="<?= asset('assets/css/style.css') ?>?v=<?= file_exists(ROOT_PATH . '/assets/css/style.css') ? filemtime(ROOT_PATH . '/assets/css/style.css') : time() ?>">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?= asset('assets/imgs/favicon.ico') ?>">
+    <!-- Script de Inicialização de Tema para Evitar Flicker -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
 </head>
 <body class="dark">
     <?php include ROOT_PATH . '/templates/header.php'; ?>
@@ -90,18 +99,28 @@ $meta_desc = $page_description ?? 'Instituto Atleta Para Sempre - Promovendo inc
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('dark');
-                const isDark = document.body.classList.contains('dark');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                const isDark = document.body.classList.contains('dark') || document.documentElement.classList.contains('dark');
+                if (isDark) {
+                    document.body.classList.remove('dark');
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.body.classList.add('dark');
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                }
                 initIcons();
             });
         }
 
-        // Restaurar tema salvo
+        // Restaurar tema salvo no body
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'light') {
             document.body.classList.remove('dark');
-            initIcons();
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.body.classList.add('dark');
+            document.documentElement.classList.add('dark');
         }
 
         // Back to top

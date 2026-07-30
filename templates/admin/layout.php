@@ -27,6 +27,20 @@ $page_title = $page_title ?? 'Admin - IAPS';
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     
     <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
+
+    <!-- Anti-flicker Script de Tema do Admin -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('admin_theme') || localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            }
+        })();
+    </script>
 </head>
 <body>
     <div class="admin-layout" id="admin-app">
@@ -101,6 +115,43 @@ $page_title = $page_title ?? 'Admin - IAPS';
                         menu.classList.remove('show');
                     });
                 }
+            }
+
+            // Alternância de Tema Admin (Light / Dark)
+            const adminThemeToggle = document.getElementById('admin-theme-toggle');
+            if (adminThemeToggle) {
+                adminThemeToggle.addEventListener('click', () => {
+                    const isLight = document.body.classList.contains('light') || document.documentElement.classList.contains('light');
+                    if (isLight) {
+                        document.body.classList.remove('light');
+                        document.documentElement.classList.remove('light');
+                        document.body.classList.add('dark');
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('admin_theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.body.classList.add('light');
+                        document.documentElement.classList.add('light');
+                        document.body.classList.remove('dark');
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('admin_theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            }
+
+            // Restaurar Tema no Admin
+            const savedAdminTheme = localStorage.getItem('admin_theme') || localStorage.getItem('theme');
+            if (savedAdminTheme === 'light') {
+                document.body.classList.add('light');
+                document.documentElement.classList.add('light');
+                document.body.classList.remove('dark');
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.body.classList.add('dark');
+                document.documentElement.classList.add('dark');
+                document.body.classList.remove('light');
+                document.documentElement.classList.remove('light');
             }
 
             // Init TinyMCE if present
