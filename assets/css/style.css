@@ -1204,15 +1204,36 @@ a:hover {
 }
 
 .patrono-img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: top center;
-    transition: transform 0.5s ease;
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.patrono-card:hover .patrono-img {
-    transform: scale(1.04);
+.patrono-img-primary {
+    opacity: 1;
+    z-index: 1;
+}
+
+.patrono-img-secondary {
+    opacity: 0;
+    z-index: 2;
+    object-position: center 20%;
+}
+
+.patrono-card.show-historic .patrono-img-primary,
+.patrono-card:hover .patrono-img-primary {
+    opacity: 0;
+}
+
+.patrono-card.show-historic .patrono-img-secondary,
+.patrono-card:hover .patrono-img-secondary {
+    opacity: 1;
+    transform: scale(1.03);
 }
 
 .patrono-badge {

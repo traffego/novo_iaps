@@ -40,11 +40,12 @@ ob_start();
             </div>
 
             <div class="about-visual">
-                <div class="card patrono-card">
+                <div class="card patrono-card" id="patrono-card">
                     <div class="patrono-image-wrapper">
-                        <img src="<?= asset('assets/img/ricardo_rocha_oficial.jpg') ?>?v=<?= file_exists(ROOT_PATH . '/assets/img/ricardo_rocha_oficial.jpg') ? filemtime(ROOT_PATH . '/assets/img/ricardo_rocha_oficial.jpg') : time() ?>" alt="Ricardo Rocha - Patrono do Instituto Atleta para Sempre" class="patrono-img">
+                        <img src="<?= asset('assets/img/ricardo_rocha_oficial.jpg') ?>?v=<?= file_exists(ROOT_PATH . '/assets/img/ricardo_rocha_oficial.jpg') ? filemtime(ROOT_PATH . '/assets/img/ricardo_rocha_oficial.jpg') : time() ?>" alt="Ricardo Rocha - Patrono do Instituto Atleta para Sempre" class="patrono-img patrono-img-primary">
+                        <img src="<?= asset('assets/img/ricardo_rocha_historico.jpg') ?>?v=<?= file_exists(ROOT_PATH . '/assets/img/ricardo_rocha_historico.jpg') ? filemtime(ROOT_PATH . '/assets/img/ricardo_rocha_historico.jpg') : time() ?>" alt="Ricardo Rocha - Tetra Campeão 1994" class="patrono-img patrono-img-secondary">
                         <div class="patrono-badge">
-                            <span>🏆 Patrono Institucional</span>
+                            <span id="patrono-badge-text">🏆 Patrono Institucional</span>
                         </div>
                     </div>
                     <div class="patrono-info">
@@ -110,6 +111,37 @@ ob_start();
     </div>
 </section>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const card = document.getElementById('patrono-card');
+    const badgeText = document.getElementById('patrono-badge-text');
+    if (!card) return;
+
+    // Animação inicial ao entrar na página: alterna para a foto de 1994 e retorna
+    setTimeout(function() {
+        card.classList.add('show-historic');
+        if (badgeText) badgeText.textContent = '🥇 Capitão do Tetra 1994';
+        
+        setTimeout(function() {
+            if (!card.matches(':hover')) {
+                card.classList.remove('show-historic');
+                if (badgeText) badgeText.textContent = '🏆 Patrono Institucional';
+            }
+        }, 2800);
+    }, 1200);
+
+    // Alternar via Hover
+    card.addEventListener('mouseenter', function() {
+        card.classList.add('show-historic');
+        if (badgeText) badgeText.textContent = '🥇 Capitão do Tetra 1994';
+    });
+
+    card.addEventListener('mouseleave', function() {
+        card.classList.remove('show-historic');
+        if (badgeText) badgeText.textContent = '🏆 Patrono Institucional';
+    });
+});
+</script>
 <?php
 $content = ob_get_clean();
 require ROOT_PATH . '/templates/layout.php';
