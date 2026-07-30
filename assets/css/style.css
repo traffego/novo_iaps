@@ -1159,3 +1159,197 @@ a:hover {
     border-color: var(--color-primary);
     transform: translateY(-3px);
 }
+
+/* ==========================================================================
+   PÁGINA QUEM SOMOS - REFORMULAÇÃO DESIGN SYSTEM
+   ========================================================================== */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 3.5rem;
+    align-items: center;
+}
+
+.about-text p {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+}
+
+.about-text strong {
+    color: var(--text-main);
+}
+
+.patrono-card {
+    padding: 0;
+    overflow: hidden;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition-normal);
+}
+
+.patrono-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+}
+
+.patrono-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+}
+
+.patrono-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.5s ease;
+}
+
+.patrono-card:hover .patrono-img {
+    transform: scale(1.04);
+}
+
+.patrono-badge {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.patrono-info {
+    padding: 1.5rem;
+}
+
+.patrono-info h3 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.25rem;
+}
+
+.patrono-subtitle {
+    font-size: 0.825rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+}
+
+.patrono-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border-color);
+}
+
+.p-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.p-stat-num {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+}
+
+.p-stat-lbl {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Missão, Visão e Valores Grid */
+.mvv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+    margin-top: 2.5rem;
+}
+
+.mvv-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+.mvv-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mvv-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-lg);
+    background: var(--color-primary-alpha);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.mvv-card h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.75rem;
+}
+
+.mvv-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.mvv-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mvv-list li {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mvv-list li::before {
+    content: "✓";
+    color: var(--color-primary);
+    font-weight: 800;
+}
+
+@media (max-width: 992px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    .mvv-grid {
+        grid-template-columns: 1fr;
+    }
+}
