@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $funcoes_vinculadas = db_fetch_all(
-    'SELECT f.* FROM tab_curriculos_funcao f
+    'SELECT DISTINCT f.id, f.funcao, f.ativo FROM tab_curriculos_funcao f
      INNER JOIN tab_projetos_funcao pf ON f.id = pf.id_funcao
      WHERE pf.id_projeto = ? ORDER BY f.funcao',
     [$projeto_id]
