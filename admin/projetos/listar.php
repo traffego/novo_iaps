@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'toggl
 
 // ── Listagem ──────────────────────────────────────────────────────────────────
 $projetos = db_fetch_all(
-    'SELECT p.*, ps.status AS nome_status
+    'SELECT p.*, ps.projetos_status AS nome_status
      FROM tab_projetos p
      LEFT JOIN tab_projetos_status ps ON p.projeto_status = ps.id
      ORDER BY p.ativo DESC, p.nome_projeto ASC'
@@ -87,11 +87,7 @@ ob_start();
                             </td>
                             <td><?= e($proj['num_proposta'] ?? '—') ?></td>
                             <td>
-                                <?php if (!empty($proj['valor'])): ?>
-                                    <?= e(format_money((float)$proj['valor'])) ?>
-                                <?php else: ?>
-                                    —
-                                <?php endif; ?>
+                                <?= !empty($proj['valor']) ? e($proj['valor']) : '—' ?>
                             </td>
                             <td>
                                 <?php if (!empty($proj['nome_status'])): ?>
