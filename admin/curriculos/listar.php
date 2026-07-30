@@ -114,15 +114,15 @@ ob_start();
                     <td><span class="text-muted text-sm"><?= $c['created_at'] ? format_date(substr($c['created_at'], 0, 10)) : '—' ?></span></td>
                     <td style="text-align:center;">
                         <?php 
-                        $arq = $c['arquivo_curriculo'] ?? '';
+                        $arq = !empty($c['arquivo_curriculo']) ? $c['arquivo_curriculo'] : ($c['id'] . '.pdf');
                         $pdf_path = UPLOAD_PATH . '/curriculos/' . $arq; 
                         ?>
-                        <?php if (!empty($arq) && file_exists($pdf_path)): ?>
-                        <a href="/uploads/curriculos/<?= e($arq) ?>" target="_blank" class="btn btn-outline btn-sm" title="Baixar PDF">
+                        <?php if (file_exists($pdf_path)): ?>
+                        <a href="/uploads/curriculos/<?= e($arq) ?>" target="_blank" class="btn btn-outline btn-sm" title="Baixar PDF do Currículo">
                             📄 PDF
                         </a>
                         <?php else: ?>
-                        <span class="text-muted">—</span>
+                        <span class="text-muted" title="Arquivo PDF não anexado">—</span>
                         <?php endif; ?>
                     </td>
                 </tr>
