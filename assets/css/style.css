@@ -1758,3 +1758,45 @@ a:hover {
         grid-template-columns: 1fr;
     }
 }
+
+/* Transparency Banner Card */
+.transp-banner-card {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2.25rem;
+    background: var(--color-primary-alpha);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.t-banner-icon {
+    font-size: 3.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.t-banner-content h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.t-banner-content p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .transp-banner-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+}

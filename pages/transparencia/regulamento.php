@@ -21,7 +21,7 @@ ob_start();
             <span>Regulamento de Compras</span>
         </nav>
         <h1 class="page-hero-title">Regulamento de Compras & Contratações</h1>
-        <p class="page-hero-sub">Regras e procedimentos para aquisição de bens, materiais e contratação de serviços.</p>
+        <p class="page-hero-sub">Regras e procedimentos objetivados para aquisição de bens, materiais e contratação de serviços.</p>
     </div>
 </section>
 
@@ -41,25 +41,97 @@ ob_start();
 </div>
 
 <section class="section" id="regulamento">
-    <div class="container container-narrow">
-        <div class="transparency-card fade-in-up">
-            <div class="transparency-icon">📋</div>
-            <h2 class="section-title mb-4">Regulamento Próprio de Contratações</h2>
-            <p>O <strong>Regulamento de Compras e Contratações</strong> do Instituto Atleta Para Sempre estabelece as normas e procedimentos objetivos para a aquisição de bens, materiais esportivos e serviços de terceiros.</p>
-            <p>Em obediência aos princípios constitucionais da <strong>legalidade, impessoalidade, moralidade, publicidade e eficiência</strong>, o Instituto garante a pesquisa mercadológica, igualdade de condições entre fornecedores e seleção da proposta mais vantajosa para o interesse público.</p>
+    <div class="container">
+        <!-- HEADER METRICS -->
+        <div class="painel-summary-grid fade-in-up">
+            <div class="summary-card">
+                <div class="s-icon">🛍️</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.15rem;">Cotação Prévia</span>
+                    <span class="s-lbl">Pesquisa Mercadológica</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">⚖️</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.15rem;">Impessoalidade</span>
+                    <span class="s-lbl">Julgamento Objetivo</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">📢</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.15rem;">Publicidade</span>
+                    <span class="s-lbl">Editais Abertos</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">✅</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.15rem;">Aprovado</span>
+                    <span class="s-lbl">Regulamento Próprio</span>
+                </div>
+            </div>
+        </div>
 
-            <?php if ($tem_pdf): ?>
-            <div style="margin-top:2rem">
+        <!-- MAIN REGULAMENTO BANNER -->
+        <div class="transp-banner-card fade-in-up mb-8">
+            <div class="t-banner-icon">📋</div>
+            <div class="t-banner-content" style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:1.5rem;">
+                <div style="max-width:700px;">
+                    <span class="section-tag">Norma de Contratação</span>
+                    <h2>Regulamento Próprio de Compras</h2>
+                    <p>O <strong>Regulamento de Compras e Contratações</strong> estabelece as diretrizes formais para aquisições de insumos desportivos, contratação de profissionais e locações, em obediência aos princípios da legalidade, moralidade, publicidade e melhor custo-benefício para o interesse público.</p>
+                </div>
+                <?php if ($tem_pdf): ?>
                 <a href="/uploads/docs/regulamento_compras.pdf" class="btn btn-primary btn-lg" target="_blank" rel="noopener">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                     Baixar Regulamento (PDF)
                 </a>
+                <?php endif; ?>
             </div>
-            <?php else: ?>
-            <div class="doc-notice mt-6">
-                <span>ℹ️ Regulamento consolidado em fase de publicação para download.</span>
+        </div>
+
+        <!-- PROCEDURES GRID -->
+        <div class="painel-grid fade-in-up">
+            <div class="painel-card">
+                <div class="painel-card-doc-icon">
+                    <div class="doc-icon-box">🔍</div>
+                </div>
+                <div class="painel-card-body">
+                    <div class="painel-card-meta">
+                        <span class="p-badge badge-doc">ETAPA 1</span>
+                    </div>
+                    <h3 class="painel-card-title">Cotação de Preços</h3>
+                    <p class="painel-card-desc">Realização obrigatória de cotação com no mínimo 3 fornecedores cadastrados para cada aquisição.</p>
+                </div>
             </div>
-            <?php endif; ?>
+
+            <div class="painel-card">
+                <div class="painel-card-doc-icon">
+                    <div class="doc-icon-box">⚖️</div>
+                </div>
+                <div class="painel-card-body">
+                    <div class="painel-card-meta">
+                        <span class="p-badge badge-img">ETAPA 2</span>
+                    </div>
+                    <h3 class="painel-card-title">Julgamento & Seleção</h3>
+                    <p class="painel-card-desc">Critério do menor preço ou melhor técnica, com parecer de homologação registrado.</p>
+                </div>
+            </div>
+
+            <div class="painel-card">
+                <div class="painel-card-doc-icon">
+                    <div class="doc-icon-box">📄</div>
+                </div>
+                <div class="painel-card-body">
+                    <div class="painel-card-meta">
+                        <span class="p-badge badge-doc">ETAPA 3</span>
+                    </div>
+                    <h3 class="painel-card-title">Formalização & Contrato</h3>
+                    <p class="painel-card-desc">Emissão de ordem de fornecimento, contrato formal e publicação nos canais de transparência.</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>

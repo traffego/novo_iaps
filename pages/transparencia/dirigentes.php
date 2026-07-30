@@ -11,6 +11,7 @@ $page_description = 'Identificação dos dirigentes e representantes legais do I
 
 $dirigentes  = db_fetch_all('SELECT * FROM tab_dirigente WHERE cod_org = 10001 ORDER BY posicao, id');
 $tem_pdf     = file_exists(UPLOAD_PATH . '/docs/dirigentes.pdf');
+$total_dir   = count($dirigentes);
 
 ob_start();
 ?>
@@ -23,7 +24,7 @@ ob_start();
             <span aria-hidden="true">›</span>
             <span>Dirigentes</span>
         </nav>
-        <h1 class="page-hero-title">Corpo Diretivo & Dirigentes</h1>
+        <h1 class="page-hero-title">Corpo Diretivo & Gestão</h1>
         <p class="page-hero-sub">Identificação e contatos dos responsáveis pela gestão executiva e fiscal do Instituto.</p>
     </div>
 </section>
@@ -44,45 +45,85 @@ ob_start();
 </div>
 
 <section class="section" id="dirigentes">
-    <div class="container container-narrow">
-        <?php if ($tem_pdf): ?>
-        <div class="download-card fade-in-up mb-8">
-            <div class="download-info">
-                <span class="download-icon">📄</span>
-                <div>
-                    <strong>Relação Oficial de Dirigentes</strong>
-                    <p>Documento oficial assinado com a relação de todos os dirigentes e mandatos vigentes.</p>
+    <div class="container">
+        <!-- HEADER METRICS -->
+        <div class="painel-summary-grid fade-in-up">
+            <div class="summary-card">
+                <div class="s-icon">👥</div>
+                <div class="s-info">
+                    <span class="s-num"><?= $total_dir > 0 ? $total_dir : '0' ?></span>
+                    <span class="s-lbl">Dirigentes Cadastrados</span>
                 </div>
             </div>
-            <a href="/uploads/docs/dirigentes.pdf" class="btn btn-primary" target="_blank" rel="noopener">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Baixar PDF
-            </a>
+            <div class="summary-card">
+                <div class="s-icon">🏆</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.1rem; line-height:1.2;">Ricardo Rocha</span>
+                    <span class="s-lbl">Patrono Institucional</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">📋</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.1rem; line-height:1.2;">Sem Remuneração</span>
+                    <span class="s-lbl">Atuação Voluntária MROSC</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">✅</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.1rem; line-height:1.2;">Vigente</span>
+                    <span class="s-lbl">Status do Mandato</span>
+                </div>
+            </div>
+        </div>
+
+        <?php if ($tem_pdf): ?>
+        <div class="transp-banner-card fade-in-up mb-8" style="background:var(--bg-surface); border:1px solid var(--border-color);">
+            <div class="t-banner-icon">📄</div>
+            <div class="t-banner-content" style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:1rem;">
+                <div>
+                    <h3 style="margin:0; font-size:1.15rem;">Ata & Relação Oficial de Dirigentes (PDF)</h3>
+                    <p style="margin:0.25rem 0 0 0; color:var(--text-muted); font-size:0.875rem;">Documento registrado contendo a ata de eleição e identificação dos representantes legais.</p>
+                </div>
+                <a href="/uploads/docs/dirigentes.pdf" class="btn btn-primary btn-sm" target="_blank" rel="noopener">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Baixar Relação Oficial
+                </a>
+            </div>
         </div>
         <?php endif; ?>
 
         <?php if (!empty($dirigentes)): ?>
-        <div class="directors-grid fade-in-up">
+        <div class="painel-grid fade-in-up">
             <?php foreach ($dirigentes as $d): ?>
-            <div class="director-card">
-                <div class="director-avatar">
-                    <?= strtoupper(substr($d['nome_diretor'], 0, 1)) ?>
+            <div class="painel-card">
+                <div class="painel-card-doc-icon" style="height:120px; background:var(--color-primary-alpha);">
+                    <div class="doc-icon-box" style="font-weight:800; font-size:1.5rem; color:var(--color-primary);">
+                        <?= strtoupper(substr($d['nome_diretor'], 0, 1)) ?>
+                    </div>
                 </div>
-                <div class="director-info">
-                    <h3><?= e($d['nome_diretor']) ?></h3>
-                    <span class="director-cargo"><?= e($d['cargo_diretor']) ?></span>
-                    <?php if ($d['telefone']): ?>
-                        <p class="director-meta">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                            <?= e($d['telefone']) ?>
-                        </p>
-                    <?php endif; ?>
-                    <?php if ($d['e_mail']): ?>
-                        <p class="director-meta">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                            <a href="mailto:<?= e($d['e_mail']) ?>"><?= e($d['e_mail']) ?></a>
-                        </p>
-                    <?php endif; ?>
+                <div class="painel-card-body">
+                    <div class="painel-card-meta">
+                        <span class="p-badge badge-img"><?= e($d['cargo_diretor'] ?: 'DIRIGENTE') ?></span>
+                    </div>
+                    <h3 class="painel-card-title"><?= e($d['nome_diretor']) ?></h3>
+                    <p class="painel-card-desc" style="margin-bottom:0.75rem;">
+                        <strong>Cargo:</strong> <?= e($d['cargo_diretor']) ?>
+                    </p>
+                    
+                    <div style="font-size:0.85rem; color:var(--text-muted); display:flex; flex-direction:column; gap:0.35rem; margin-top:auto; padding-top:0.75rem; border-top:1px dashed var(--border-color);">
+                        <?php if ($d['telefone']): ?>
+                            <span style="display:flex; align-items:center; gap:0.4rem;">
+                                📞 <?= e($d['telefone']) ?>
+                            </span>
+                        <?php endif; ?>
+                        <?php if ($d['e_mail']): ?>
+                            <span style="display:flex; align-items:center; gap:0.4rem; word-break:break-all;">
+                                ✉️ <a href="mailto:<?= e($d['e_mail']) ?>" style="color:var(--color-primary);"><?= e($d['e_mail']) ?></a>
+                            </span>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -91,7 +132,7 @@ ob_start();
         <div class="empty-state fade-in-up">
             <div class="empty-icon">👥</div>
             <h3>Corpo diretivo em atualização</h3>
-            <p>A listagem dos membros da diretoria será publicada em breve.</p>
+            <p>A relação completa dos membros da diretoria será disponibilizada nesta página em breve.</p>
         </div>
         <?php endif; ?>
     </div>

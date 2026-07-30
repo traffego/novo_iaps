@@ -7,9 +7,11 @@ require_once ROOT_PATH . '/src/database.php';
 require_once ROOT_PATH . '/src/helpers.php';
 
 $page_title       = 'Termos de Colaboração';
-$page_description = 'Termos de fomento e parcerias públicas e privadas celebradas pelo Instituto Atleta Para Sempre.';
+$page_description = 'Termos de fomento, colaboração e parcerias celebradas pelo Instituto Atleta Para Sempre.';
 
 $termos = db_fetch_all('SELECT * FROM tab_documentos_termo_colaboracao ORDER BY data_documento DESC');
+$total_termos = count($termos);
+$ultimo_termo = !empty($termos) ? format_date($termos[0]['data_documento']) : 'N/A';
 
 ob_start();
 ?>
@@ -43,7 +45,39 @@ ob_start();
 </div>
 
 <section class="section" id="termos">
-    <div class="container container-narrow">
+    <div class="container">
+        <!-- SUMMARY METRICS GRID -->
+        <div class="painel-summary-grid fade-in-up">
+            <div class="summary-card">
+                <div class="s-icon">🤝</div>
+                <div class="s-info">
+                    <span class="s-num"><?= $total_termos ?></span>
+                    <span class="s-lbl">Termos Registrados</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">📜</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.15rem;">Lei 13.019/2014</span>
+                    <span class="s-lbl">Regime Jurídico MROSC</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">🏛️</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.15rem;">Poder Público</span>
+                    <span class="s-lbl">Parcerias Estratégicas</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">🕒</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.15rem; font-family:var(--font-mono);"><?= e($ultimo_termo) ?></span>
+                    <span class="s-lbl">Último Instrumento</span>
+                </div>
+            </div>
+        </div>
+
         <?php if (empty($termos)): ?>
         <div class="empty-state fade-in-up">
             <div class="empty-icon">🤝</div>
@@ -51,21 +85,42 @@ ob_start();
             <p>Os termos de colaboração e fomento celebrados serão listados publicamente nesta seção.</p>
         </div>
         <?php else: ?>
-        <div class="docs-list fade-in-up">
+
+        <!-- TERMOS CARDS GRID -->
+        <div class="painel-grid fade-in-up">
             <?php foreach ($termos as $t): ?>
-            <div class="doc-list-item">
-                <div class="doc-list-info">
-                    <h4><?= e($t['titulo']) ?></h4>
-                    <?php if ($t['resumo']): ?><p><?= e($t['resumo']) ?></p><?php endif; ?>
-                    <span class="doc-date"><?= format_date($t['data_documento']) ?></span>
+            <?php 
+                $ext = strtolower(pathinfo($t['arquivo'], PATHINFO_EXTENSION));
+                $caminho_arq = UPLOAD_PATH . '/transparencia/' . $t['arquivo'];
+                $tamanho_kb = file_exists($caminho_arq) ? round(filesize($caminho_arq) / 1024, 1) : 0;
+            ?>
+            <div class="painel-card">
+                <div class="painel-card-doc-icon">
+                    <div class="doc-icon-box" style="color:var(--color-primary); background:var(--color-primary-alpha);">
+                        🤝
+                    </div>
                 </div>
-                <a href="/uploads/transparencia/<?= e($t['arquivo']) ?>" class="btn btn-outline btn-sm" target="_blank" rel="noopener">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Baixar Termo
-                </a>
+                <div class="painel-card-body">
+                    <div class="painel-card-meta">
+                        <span class="p-badge badge-doc"><?= strtoupper($ext ?: 'PDF') ?></span>
+                        <span class="p-date"><?= format_date($t['data_documento']) ?></span>
+                    </div>
+                    <h3 class="painel-card-title"><?= e($t['titulo']) ?></h3>
+                    <?php if (!empty($t['resumo'])): ?>
+                        <p class="painel-card-desc"><?= e($t['resumo']) ?></p>
+                    <?php else: ?>
+                        <p class="painel-card-desc">Instrumento formal de parceria e termo de colaboração institucional.</p>
+                    <?php endif; ?>
+                    
+                    <a href="/uploads/transparencia/<?= e($t['arquivo']) ?>" class="btn btn-primary btn-sm w-100" target="_blank" rel="noopener">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Baixar Termo de Fomento (<?= $tamanho_kb > 0 ? $tamanho_kb . ' KB' : 'PDF' ?>)
+                    </a>
+                </div>
             </div>
             <?php endforeach; ?>
         </div>
+
         <?php endif; ?>
     </div>
 </section>

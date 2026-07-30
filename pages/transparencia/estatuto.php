@@ -41,25 +41,97 @@ ob_start();
 </div>
 
 <section class="section" id="estatuto">
-    <div class="container container-narrow">
-        <div class="transparency-card fade-in-up">
-            <div class="transparency-icon">📜</div>
-            <h2 class="section-title mb-4">Estatuto Social Consolidado</h2>
-            <p>O <strong>Estatuto Social</strong> é o instrumento supremo que define as normas de funcionamento do Instituto Atleta Para Sempre, estabelecendo sua finalidade de interesse público, governança, direitos e deveres dos associados e diretrizes de prestação de contas.</p>
-            <p>O Instituto é constituído como uma Organização da Sociedade Civil (OSC) sem fins lucrativos, atuando estritamente em conformidade com as diretrizes da Assistência Social, da Lei nº 13.019/2014 e da Lei de Incentivo ao Esporte.</p>
+    <div class="container">
+        <!-- HEADER METRICS BANNER -->
+        <div class="painel-summary-grid fade-in-up">
+            <div class="summary-card">
+                <div class="s-icon">🏛️</div>
+                <div class="s-info">
+                    <span class="s-num">2012</span>
+                    <span class="s-lbl">Ano de Registro</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">📍</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.15rem;">Recife-PE</span>
+                    <span class="s-lbl">Sede Jurídica</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">📜</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.15rem;">OSC / 3º Setor</span>
+                    <span class="s-lbl">Natureza Jurídica</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="s-icon">⚖️</div>
+                <div class="s-info">
+                    <span class="s-num" style="font-size:1.15rem;">Consolidado</span>
+                    <span class="s-lbl">Estatuto Vigente</span>
+                </div>
+            </div>
+        </div>
 
-            <?php if ($tem_pdf): ?>
-            <div style="margin-top:2rem">
+        <!-- MAIN ESTATUTO CARD BANNER -->
+        <div class="transp-banner-card fade-in-up mb-8">
+            <div class="t-banner-icon">📜</div>
+            <div class="t-banner-content" style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:1.5rem;">
+                <div style="max-width:700px;">
+                    <span class="section-tag">Norma Fundamental</span>
+                    <h2>Estatuto Social Consolidado</h2>
+                    <p>O <strong>Estatuto Social</strong> é o instrumento supremo que define as normas de funcionamento do Instituto Atleta Para Sempre, estabelecendo sua finalidade de interesse público, governança, direitos e deveres dos associados e diretrizes de prestação de contas.</p>
+                </div>
+                <?php if ($tem_pdf): ?>
                 <a href="/uploads/docs/estatuto.pdf" class="btn btn-primary btn-lg" target="_blank" rel="noopener">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Baixar Estatuto Social (PDF)
+                    Baixar Estatuto (PDF)
                 </a>
+                <?php endif; ?>
             </div>
-            <?php else: ?>
-            <div class="doc-notice mt-6">
-                <span>ℹ️ O documento em formato PDF está sendo preparado e será disponibilizado para download em breve.</span>
+        </div>
+
+        <!-- ESTATUTO PILLARS GRID -->
+        <div class="painel-grid fade-in-up">
+            <div class="painel-card">
+                <div class="painel-card-doc-icon">
+                    <div class="doc-icon-box">🎯</div>
+                </div>
+                <div class="painel-card-body">
+                    <div class="painel-card-meta">
+                        <span class="p-badge badge-doc">CAPÍTULO I</span>
+                    </div>
+                    <h3 class="painel-card-title">Denominação & Sede</h3>
+                    <p class="painel-card-desc">Associação civil sem fins lucrativos, com autonomia administrativa, financeira e sede em Recife-PE.</p>
+                </div>
             </div>
-            <?php endif; ?>
+
+            <div class="painel-card">
+                <div class="painel-card-doc-icon">
+                    <div class="doc-icon-box">🏆</div>
+                </div>
+                <div class="painel-card-body">
+                    <div class="painel-card-meta">
+                        <span class="p-badge badge-img">CAPÍTULO II</span>
+                    </div>
+                    <h3 class="painel-card-title">Objetivos Sociais</h3>
+                    <p class="painel-card-desc">Fomento do esporte, lazer, formação cidadã e ações de Assistência Social no contraturno escolar.</p>
+                </div>
+            </div>
+
+            <div class="painel-card">
+                <div class="painel-card-doc-icon">
+                    <div class="doc-icon-box">👔</div>
+                </div>
+                <div class="painel-card-body">
+                    <div class="painel-card-meta">
+                        <span class="p-badge badge-doc">CAPÍTULO III</span>
+                    </div>
+                    <h3 class="painel-card-title">Governança & Administração</h3>
+                    <p class="painel-card-desc">Estrutura organizacional composta pela Assembleia Geral, Diretoria Executiva e Conselho Fiscal.</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
