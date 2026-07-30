@@ -15,9 +15,13 @@ $page_title = $page_title ?? 'Admin - IAPS';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/admin.css">
+    <!-- CSS com Cache-Busting -->
+    <?php
+    $css_v1 = file_exists(ROOT_PATH . '/assets/css/style.css') ? filemtime(ROOT_PATH . '/assets/css/style.css') : time();
+    $css_v2 = file_exists(ROOT_PATH . '/assets/css/admin.css') ? filemtime(ROOT_PATH . '/assets/css/admin.css') : time();
+    ?>
+    <link rel="stylesheet" href="/assets/css/style.css?v=<?= $css_v1 ?>">
+    <link rel="stylesheet" href="/assets/css/admin.css?v=<?= $css_v2 ?>">
     
     <!-- TinyMCE -->
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>

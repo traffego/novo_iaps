@@ -19,6 +19,16 @@
   --adm-border:       rgba(99,120,155,0.18);
   --adm-border-focus: rgba(56,139,253,0.5);
 
+  /* Mapeamento de variáveis legadas do style.css para o Admin Dark */
+  --bg-main:          #0d1117;
+  --bg-surface:       #161b22;
+  --bg-surface-hover: #252e40;
+  --text-main:        #e6edf3;
+  --text-muted:       #7d8fa3;
+  --border-color:     rgba(99,120,155,0.18);
+  --color-primary:    #388bfd;
+  --color-primary-alpha: rgba(56,139,253,0.18);
+
   /* Textos */
   --adm-text:         #e6edf3;
   --adm-text-muted:   #7d8fa3;
