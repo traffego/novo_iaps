@@ -135,11 +135,11 @@ ob_start();
             <div class="mission-content">
                 <span class="section-tag">Nossa Missão</span>
                 <h2 class="section-title">Esporte como<br>ferramenta de transformação</h2>
-                <p>O Instituto Atleta Para Sempre é uma organização do terceiro setor dedicada ao fomento do esporte brasileiro por meio da Lei Federal de Incentivo ao Esporte (Lei 11.438/2006).</p>
-                <p>Atuamos captando e gerenciando recursos para projetos esportivos que promovem inclusão social, desenvolvimento humano e formação de atletas de alto rendimento em todo o Brasil.</p>
+                <p>O <strong>Instituto Atleta para Sempre</strong> é uma Organização da Sociedade Civil, de caráter social e beneficente, instituída em 2012, com sede em Recife-PE. Atuamos na promoção da cidadania e no fortalecimento do desenvolvimento humano por meio da prática esportiva.</p>
+                <p>Nossas atividades são alinhadas ao interesse público e orientadas pelos princípios da Assistência Social, proporcionando contraturno escolar qualificado e novas oportunidades para crianças e adolescentes em situação de vulnerabilidade.</p>
                 <div class="mission-links">
-                    <a href="/quem-somos" class="btn btn-primary">Conheça o Instituto</a>
-                    <a href="/transparencia/declaracao" class="btn btn-ghost">Transparência</a>
+                    <a href="/quem-somos" class="btn btn-primary btn-lg">Conheça o Instituto</a>
+                    <a href="/transparencia/declaracao" class="btn btn-outline btn-lg">Transparência</a>
                 </div>
             </div>
             <div class="mission-values">
