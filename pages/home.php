@@ -45,8 +45,8 @@ ob_start();
             através do esporte de alto rendimento e da Lei de Incentivo ao Esporte.
         </p>
         <div class="hero-actions">
-            <a href="/trabalhe-conosco" class="btn btn-primary btn-lg">Trabalhe Conosco</a>
-            <a href="/editais" class="btn btn-outline btn-lg">Ver Editais</a>
+            <a href="/quem-somos" class="btn btn-primary btn-lg">Quem Somos Nós</a>
+            <a href="/projetos" class="btn btn-outline btn-lg">Ver Projetos</a>
         </div>
     </div>
     <div class="hero-scroll-hint" aria-hidden="true">
