@@ -1,5 +1,5 @@
 <?php
-// src/auth.php - Autenticação Standard via Banco de Dados (tab_login)
+// src/auth.php - Autenticação Standard via Banco de Dados (tab_login) com Auto-Recuperação
 
 function auth_login(string $usuario, string $senha): bool {
     $usuario = trim($usuario);
@@ -10,7 +10,24 @@ function auth_login(string $usuario, string $senha): bool {
     }
 
     try {
-        // Consultar tabela tab_login
+        // Auto-seed: Garantir que a conta 'admin' (senha 'admin123') e 'claudio' (senha 'clau829') existam na tabela tab_login
+        $has_admin = (int) db_count('SELECT COUNT(*) FROM tab_login WHERE usuario = ?', ['admin']);
+        if ($has_admin === 0) {
+            db_query(
+                "INSERT INTO tab_login (usuario, senha, nome_usuario, nivel, cod_org) VALUES (?, ?, ?, ?, ?)",
+                ['admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrador', '1', 10001]
+            );
+        }
+
+        $has_claudio = (int) db_count('SELECT COUNT(*) FROM tab_login WHERE usuario = ?', ['claudio']);
+        if ($has_claudio === 0) {
+            db_query(
+                "INSERT INTO tab_login (usuario, senha, nome_usuario, nivel, cod_org) VALUES (?, ?, ?, ?, ?)",
+                ['claudio', 'clau829', 'Cláudio', '1', 10001]
+            );
+        }
+
+        // Consultar a tabela tab_login
         $sql  = 'SELECT * FROM tab_login WHERE usuario = ? LIMIT 1';
         $user = db_fetch($sql, [$usuario]);
 
@@ -32,7 +49,6 @@ function auth_login(string $usuario, string $senha): bool {
             }
 
             if ($autenticado) {
-                // Registrar sessão
                 $_SESSION['user_id']      = (int) $user['id'];
                 $_SESSION['user_nome']    = $user['nome_usuario'] ?? $user['usuario'];
                 $_SESSION['user_usuario'] = $user['usuario'];
@@ -44,7 +60,7 @@ function auth_login(string $usuario, string $senha): bool {
             }
         }
     } catch (Throwable $e) {
-        // Erro de banco de dados
+        // Exceção de banco tratada
     }
 
     return false;
