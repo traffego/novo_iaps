@@ -202,7 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const res = await fetch(`/api/funcoes-projeto.php?projeto_id=${encodeURIComponent(projetoId)}`);
+                const baseUrl = window.location.origin;
+                const pathPrefix = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+                const apiPath = `${baseUrl}${pathPrefix}/api/funcoes-projeto.php`.replace(/([^:]\/)\/+/g, "$1");
+                const res = await fetch(`${apiPath}?projeto_id=${encodeURIComponent(projetoId)}`);
                 if (!res.ok) throw new Error('Erro');
                 const funcoes = await res.json();
 
