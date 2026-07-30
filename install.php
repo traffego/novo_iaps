@@ -40,10 +40,11 @@ $pass = getenv('DB_PASS') ?: '';
 
 // ─── Migrations a executar (em ordem) ────────────────────────────────────────
 $migrations = [
-    '001_schema.sql'                     => 'Criação das tabelas',
-    '002_seed_domain.sql'                => 'Dados iniciais (estados, funções, organização, admin)',
-    '003_import_cities.sql'              => 'Cidades e estados',
+    '001_schema.sql'                      => 'Criação das tabelas',
+    '002_seed_domain.sql'                 => 'Dados iniciais (estados, funções, organização, admin)',
+    '003_import_cities.sql'               => 'Cidades e estados',
     '004_seed_projects_and_documents.sql' => 'Importação dos projetos e documentos esportivos',
+    '005_seed_curriculos_fornecedores.sql' => 'Importação de currículos e fornecedores',
 ];
 
 // ─── Conectar ao banco ────────────────────────────────────────────────────────
