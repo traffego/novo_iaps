@@ -10,9 +10,8 @@ vendor/
 # Dados sensíveis
 data/auth_info/
 
-# Uploads privados de usuários (não versionar por privacidade LGPD)
-uploads/curriculos/*.pdf
-uploads/fornecedores/*
+# Uploads privados
+# uploads/fornecedores/*
 
 # IDE
 .vscode/
