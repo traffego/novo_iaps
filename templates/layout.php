@@ -84,7 +84,7 @@ $meta_desc = $page_description ?? 'Instituto Atleta Para Sempre - Promovendo inc
     <script src="https://cdn.jsdelivr.net/npm/glightbox@3.3.0/dist/js/glightbox.min.js"></script>
 
     <!-- Main JS -->
-    <script src="<?= asset('assets/js/main.js') ?>"></script>
+    <script src="<?= asset('assets/js/main.js') ?>?v=<?= file_exists(ROOT_PATH . '/assets/js/main.js') ? filemtime(ROOT_PATH . '/assets/js/main.js') : time() ?>"></script>
 
     <script>
         // Lucide Icons init
@@ -95,45 +95,6 @@ $meta_desc = $page_description ?? 'Instituto Atleta Para Sempre - Promovendo inc
         }
         initIcons();
 
-        // Tema dark/light
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                const isDark = document.body.classList.contains('dark') || document.documentElement.classList.contains('dark');
-                if (isDark) {
-                    document.body.classList.remove('dark');
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    document.body.classList.add('dark');
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('theme', 'dark');
-                }
-                initIcons();
-            });
-        }
-
-        // Restaurar tema salvo no body
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-            document.body.classList.remove('dark');
-            document.documentElement.classList.remove('dark');
-        } else {
-            document.body.classList.add('dark');
-            document.documentElement.classList.add('dark');
-        }
-
-        // Back to top
-        const backToTop = document.getElementById('back-to-top');
-        if (backToTop) {
-            window.addEventListener('scroll', () => {
-                backToTop.classList.toggle('visible', window.scrollY > 300);
-            });
-            backToTop.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
-
         // GLightbox init
         if (typeof GLightbox !== 'undefined') {
             GLightbox({ selector: '.glightbox' });
@@ -143,16 +104,6 @@ $meta_desc = $page_description ?? 'Instituto Atleta Para Sempre - Promovendo inc
         document.querySelectorAll('.flash-message').forEach(el => {
             setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }, 5000);
         });
-
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('mobile-menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (menuToggle && mobileMenu) {
-            menuToggle.addEventListener('click', () => {
-                mobileMenu.classList.toggle('active');
-                menuToggle.classList.toggle('active');
-            });
-        }
     </script>
 </body>
 </html>

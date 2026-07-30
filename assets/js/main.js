@@ -85,26 +85,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // TEMA DARK / LIGHT
     // =============================================
     const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon   = document.getElementById('theme-icon');
-
-    const SVG_SOL = `<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>`;
-    const SVG_LUA = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
 
     function aplicarTema(dark) {
-        document.body.classList.toggle('dark', dark);
-        if (themeIcon) themeIcon.innerHTML = dark ? SVG_SOL : SVG_LUA;
-        if (themeToggle) themeToggle.setAttribute('title', dark ? 'Modo claro' : 'Modo escuro');
+        if (dark) {
+            document.body.classList.add('dark');
+            document.documentElement.classList.add('dark');
+        } else {
+            document.body.classList.remove('dark');
+            document.documentElement.classList.remove('dark');
+        }
+
+        if (themeToggle) {
+            themeToggle.setAttribute('title', dark ? 'Modo claro' : 'Modo escuro');
+            const icon = themeToggle.querySelector('i');
+            if (icon) {
+                icon.setAttribute('data-lucide', dark ? 'sun' : 'moon');
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }
+        }
     }
 
     // Restaurar tema salvo
-    const temaSalvo = localStorage.getItem('iaps-theme');
-    aplicarTema(temaSalvo !== 'light');
+    const temaSalvo = localStorage.getItem('theme');
+    if (temaSalvo === 'light') {
+        aplicarTema(false);
+    } else if (temaSalvo === 'dark') {
+        aplicarTema(true);
+    }
 
     if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            const dark = !document.body.classList.contains('dark');
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const dark = !document.body.classList.contains('dark') && !document.documentElement.classList.contains('dark');
             aplicarTema(dark);
-            localStorage.setItem('iaps-theme', dark ? 'dark' : 'light');
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
         });
     }
 
