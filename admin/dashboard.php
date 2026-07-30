@@ -16,29 +16,48 @@ $breadcrumb = [
 ];
 
 // ── Estatísticas ──────────────────────────────────────────────────────────────
-$total_projetos   = db_count('SELECT COUNT(*) FROM tab_projetos WHERE ativo = 1');
-$total_curriculos = db_count('SELECT COUNT(*) FROM tab_curriculos');
-$total_fornecedores = db_count('SELECT COUNT(*) FROM tab_fornecedores');
-$total_noticias   = db_count('SELECT COUNT(*) FROM tab_noticias');
+$total_projetos     = 0;
+$total_curriculos   = 0;
+$total_fornecedores = 0;
+$total_noticias     = 0;
+
+try { $total_projetos     = db_count('SELECT COUNT(*) FROM tab_projetos WHERE ativo = 1'); } catch (Throwable $e) {}
+try { $total_curriculos   = db_count('SELECT COUNT(*) FROM tab_curriculos'); } catch (Throwable $e) {}
+try { $total_fornecedores = db_count('SELECT COUNT(*) FROM tab_fornecedores'); } catch (Throwable $e) {}
+try { $total_noticias     = db_count('SELECT COUNT(*) FROM tab_noticias'); } catch (Throwable $e) {}
 
 // ── Últimos 10 currículos ─────────────────────────────────────────────────────
-$ultimos_curriculos = db_fetch_all(
-    'SELECT c.id, c.nome, c.telefone, f.funcao, p.nome_projeto, c.data_cadastro
-     FROM tab_curriculos c
-     LEFT JOIN tab_curriculos_funcao f ON c.id_funcao = f.id
-     LEFT JOIN tab_projetos p ON c.id_projeto = p.id
-     ORDER BY c.data_cadastro DESC
-     LIMIT 10'
-);
+$ultimos_curriculos = [];
+try {
+    $ultimos_curriculos = db_fetch_all(
+        'SELECT c.id, c.nome, COALESCE(c.telefone_1, "") AS telefone, f.funcao, p.nome_projeto, c.created_at AS data_cadastro
+         FROM tab_curriculos c
+         LEFT JOIN tab_curriculos_funcao f ON c.id_funcao = f.id
+         LEFT JOIN tab_projetos p ON c.id_projeto = p.id
+         ORDER BY c.id DESC
+         LIMIT 10'
+    );
+} catch (Throwable $e) {
+    try {
+        $ultimos_curriculos = db_fetch_all('SELECT id, nome, created_at AS data_cadastro FROM tab_curriculos ORDER BY id DESC LIMIT 10');
+    } catch (Throwable $e2) {
+        $ultimos_curriculos = [];
+    }
+}
 
 // ── Últimos 10 acessos ────────────────────────────────────────────────────────
-$ultimos_acessos = db_fetch_all(
-    'SELECT r.data_hora, r.ip, u.nome AS usuario
-     FROM tab_login_registro r
-     LEFT JOIN tab_usuario u ON r.cod_usuario = u.cod_usuario
-     ORDER BY r.data_hora DESC
-     LIMIT 10'
-);
+$ultimos_acessos = [];
+try {
+    $ultimos_acessos = db_fetch_all(
+        'SELECT r.created_at AS data_hora, r.ip, COALESCE(l.nome_usuario, l.usuario, "Administrador") AS usuario
+         FROM tab_login_registro r
+         LEFT JOIN tab_login l ON r.usuario = l.id
+         ORDER BY r.id DESC
+         LIMIT 10'
+    );
+} catch (Throwable $e) {
+    $ultimos_acessos = [];
+}
 
 // ── Usuário logado ────────────────────────────────────────────────────────────
 $usuario_logado = auth_user();
@@ -48,156 +67,96 @@ ob_start();
 <!-- Cards de Estatísticas -->
 <div class="page-header mb-6">
     <h2 class="page-title">Dashboard</h2>
-    <p class="text-muted">Bem-vindo, <?= e($usuario_logado['nome'] ?? 'Administrador') ?>. Aqui está o resumo do sistema.</p>
+    <p class="text-muted" style="font-size:0.9rem;">Visão geral do sistema Instituto Atleta Para Sempre</p>
 </div>
 
-<div class="stats-grid mb-8" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
-
-    <!-- Projetos Ativos -->
-    <div class="stat-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; display: flex; align-items: center; gap: 1rem;">
-        <div style="width: 48px; height: 48px; border-radius: 10px; background: rgba(31,111,235,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f6feb" stroke-width="2">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-            </svg>
-        </div>
-        <div>
-            <div style="font-size: 2rem; font-weight: 700; color: var(--text-primary); line-height: 1;"><?= $total_projetos ?></div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Projetos Ativos</div>
+<div class="grid grid-cols-4 gap-4 mb-6">
+    <div class="card" style="padding: 1.25rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <span class="text-muted" style="font-size:0.8rem; font-weight:600; text-transform:uppercase;">Projetos Ativos</span>
+                <h3 style="font-size:1.8rem; font-weight:700; color:var(--color-primary); margin-top:0.25rem;"><?= $total_projetos ?></h3>
+            </div>
+            <div style="width:42px; height:42px; border-radius:10px; background:var(--color-primary-alpha); color:var(--color-primary); display:flex; align-items:center; justify-content:center;">
+                <i data-lucide="trophy" style="width:22px; height:22px;"></i>
+            </div>
         </div>
     </div>
 
-    <!-- Currículos -->
-    <div class="stat-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; display: flex; align-items: center; gap: 1rem;">
-        <div style="width: 48px; height: 48px; border-radius: 10px; background: rgba(63,185,80,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3fb950" stroke-width="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-        </div>
-        <div>
-            <div style="font-size: 2rem; font-weight: 700; color: var(--text-primary); line-height: 1;"><?= $total_curriculos ?></div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Currículos Recebidos</div>
+    <div class="card" style="padding: 1.25rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <span class="text-muted" style="font-size:0.8rem; font-weight:600; text-transform:uppercase;">Currículos</span>
+                <h3 style="font-size:1.8rem; font-weight:700; color:#10b981; margin-top:0.25rem;"><?= $total_curriculos ?></h3>
+            </div>
+            <div style="width:42px; height:42px; border-radius:10px; background:rgba(16,185,129,0.15); color:#10b981; display:flex; align-items:center; justify-content:center;">
+                <i data-lucide="users" style="width:22px; height:22px;"></i>
+            </div>
         </div>
     </div>
 
-    <!-- Fornecedores -->
-    <div class="stat-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; display: flex; align-items: center; gap: 1rem;">
-        <div style="width: 48px; height: 48px; border-radius: 10px; background: rgba(210,153,34,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d29922" stroke-width="2">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-            </svg>
-        </div>
-        <div>
-            <div style="font-size: 2rem; font-weight: 700; color: var(--text-primary); line-height: 1;"><?= $total_fornecedores ?></div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Fornecedores</div>
+    <div class="card" style="padding: 1.25rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <span class="text-muted" style="font-size:0.8rem; font-weight:600; text-transform:uppercase;">Fornecedores</span>
+                <h3 style="font-size:1.8rem; font-weight:700; color:#f59e0b; margin-top:0.25rem;"><?= $total_fornecedores ?></h3>
+            </div>
+            <div style="width:42px; height:42px; border-radius:10px; background:rgba(245,158,11,0.15); color:#f59e0b; display:flex; align-items:center; justify-content:center;">
+                <i data-lucide="truck" style="width:22px; height:22px;"></i>
+            </div>
         </div>
     </div>
 
-    <!-- Notícias -->
-    <div class="stat-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; display: flex; align-items: center; gap: 1rem;">
-        <div style="width: 48px; height: 48px; border-radius: 10px; background: rgba(248,81,73,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f85149" stroke-width="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
-                <polyline points="10 9 9 9 8 9"/>
-            </svg>
+    <div class="card" style="padding: 1.25rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <span class="text-muted" style="font-size:0.8rem; font-weight:600; text-transform:uppercase;">Notícias</span>
+                <h3 style="font-size:1.8rem; font-weight:700; color:#8b5cf6; margin-top:0.25rem;"><?= $total_noticias ?></h3>
+            </div>
+            <div style="width:42px; height:42px; border-radius:10px; background:rgba(139,92,246,0.15); color:#8b5cf6; display:flex; align-items:center; justify-content:center;">
+                <i data-lucide="newspaper" style="width:22px; height:22px;"></i>
+            </div>
         </div>
-        <div>
-            <div style="font-size: 2rem; font-weight: 700; color: var(--text-primary); line-height: 1;"><?= $total_noticias ?></div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Notícias</div>
-        </div>
-    </div>
-
-</div>
-
-<!-- Ações Rápidas -->
-<div class="mb-8">
-    <h3 style="color: var(--text-primary); font-size: 1rem; font-weight: 600; margin-bottom: 1rem;">Ações Rápidas</h3>
-    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
-        <a href="/admin/projetos/criar.php" class="btn btn-primary">+ Novo Projeto</a>
-        <a href="/admin/noticias/criar.php" class="btn btn-primary">+ Nova Notícia</a>
-        <a href="/admin/curriculos/listar.php" class="btn btn-secondary">Ver Currículos</a>
-        <a href="/admin/transparencia/financeiro.php" class="btn btn-secondary">Upload Financeiro</a>
-        <a href="/admin/configuracoes/organizacao.php" class="btn btn-secondary">Configurações</a>
     </div>
 </div>
 
-<!-- Grid de tabelas -->
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+<!-- Tabela de Últimos Currículos -->
+<div class="card mb-6" style="padding: 1.5rem;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+        <h3 style="font-size:1.1rem; font-weight:600; color:var(--text-color);">Últimos Currículos Cadastrados</h3>
+        <a href="/admin/curriculos/index.php" class="btn btn-outline btn-sm"><i data-lucide="arrow-right"></i> Ver Todos</a>
+    </div>
 
-    <!-- Últimos Currículos -->
-    <div class="card">
-        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
-            <h3 class="card-title">Últimos Currículos</h3>
-            <a href="/admin/curriculos/listar.php" class="btn btn-sm btn-secondary">Ver todos</a>
-        </div>
-        <div class="table-responsive">
-            <table class="table">
+    <?php if (empty($ultimos_curriculos)): ?>
+        <p class="text-muted" style="font-size:0.9rem; padding: 1rem 0;">Nenhum currículo cadastrado até o momento.</p>
+    <?php else: ?>
+        <div style="overflow-x:auto;">
+            <table class="data-table" style="width:100%; border-collapse:collapse;">
                 <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Função</th>
-                        <th>Data</th>
+                    <tr style="text-align:left; border-bottom:1px solid var(--border-color); font-size:0.85rem; color:var(--text-muted);">
+                        <th style="padding:0.75rem;">Nome</th>
+                        <th style="padding:0.75rem;">Telefone</th>
+                        <th style="padding:0.75rem;">Função</th>
+                        <th style="padding:0.75rem;">Projeto</th>
+                        <th style="padding:0.75rem;">Data</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($ultimos_curriculos)): ?>
-                        <tr>
-                            <td colspan="3" class="text-center text-muted">Nenhum currículo encontrado.</td>
+                    <?php foreach ($ultimos_curriculos as $c): ?>
+                        <tr style="border-bottom:1px solid var(--border-color); font-size:0.9rem;">
+                            <td style="padding:0.75rem; font-weight:600;"><?= e($c['nome']) ?></td>
+                            <td style="padding:0.75rem;"><?= e($c['telefone'] ?? '-') ?></td>
+                            <td style="padding:0.75rem;"><?= e($c['funcao'] ?? '-') ?></td>
+                            <td style="padding:0.75rem;"><?= e($c['nome_projeto'] ?? '-') ?></td>
+                            <td style="padding:0.75rem; color:var(--text-muted);"><?= format_date($c['data_cadastro'] ?? '') ?></td>
                         </tr>
-                    <?php else: ?>
-                        <?php foreach ($ultimos_curriculos as $curr): ?>
-                            <tr>
-                                <td><?= e($curr['nome']) ?></td>
-                                <td><?= e($curr['funcao'] ?? '—') ?></td>
-                                <td style="white-space: nowrap; font-size: 0.8rem;"><?= e(format_date($curr['data_cadastro'] ?? '', 'd/m/Y')) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <!-- Últimos Acessos -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Últimos Acessos ao Sistema</h3>
-        </div>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Usuário</th>
-                        <th>IP</th>
-                        <th>Data/Hora</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($ultimos_acessos)): ?>
-                        <tr>
-                            <td colspan="3" class="text-center text-muted">Nenhum acesso registrado.</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($ultimos_acessos as $acesso): ?>
-                            <tr>
-                                <td><?= e($acesso['usuario'] ?? '—') ?></td>
-                                <td style="font-family: monospace; font-size: 0.85rem;"><?= e($acesso['ip']) ?></td>
-                                <td style="white-space: nowrap; font-size: 0.8rem;"><?= e(format_date($acesso['data_hora'] ?? '', 'd/m/Y H:i')) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
+    <?php endif; ?>
 </div>
+
 <?php
 $content = ob_get_clean();
 require ROOT_PATH . '/templates/admin/layout.php';
