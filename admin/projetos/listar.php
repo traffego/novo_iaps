@@ -43,12 +43,16 @@ $breadcrumb = [
 
 ob_start();
 ?>
-<div class="page-header mb-6" style="display: flex; justify-content: space-between; align-items: center;">
+<!-- Header da Página -->
+<div class="page-header">
     <div>
-        <h2 class="page-title">Projetos</h2>
-        <p class="text-muted"><?= count($projetos) ?> projeto(s) cadastrado(s)</p>
+        <h1 class="page-title">Projetos</h1>
+        <p class="page-subtitle">Gerenciamento de projetos sociais e esportivos (<?= count($projetos) ?> cadastrados)</p>
     </div>
-    <a href="/admin/projetos/criar.php" class="btn btn-primary">+ Novo Projeto</a>
+    <a href="/admin/projetos/criar.php" class="btn btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span>Novo Projeto</span>
+    </a>
 </div>
 
 <?php if ($msg_flash = flash('success')): ?>
@@ -60,7 +64,7 @@ ob_start();
 
 <div class="card">
     <div class="table-responsive">
-        <table class="table">
+        <table class="data-table">
             <thead>
                 <tr>
                     <th>Nome do Projeto</th>
@@ -68,7 +72,7 @@ ob_start();
                     <th>Valor</th>
                     <th>Status</th>
                     <th>Ativo</th>
-                    <th style="width: 220px;">Ações</th>
+                    <th style="width: 240px; text-align: right;">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -87,7 +91,7 @@ ob_start();
                             </td>
                             <td><?= e($proj['num_proposta'] ?? '—') ?></td>
                             <td>
-                                <?= !empty($proj['valor']) ? e($proj['valor']) : '—' ?>
+                                <strong><?= !empty($proj['valor']) ? e($proj['valor']) : '—' ?></strong>
                             </td>
                             <td>
                                 <?php if (!empty($proj['nome_status'])): ?>
@@ -104,17 +108,16 @@ ob_start();
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
-                                    <a href="/admin/projetos/editar.php?id=<?= $proj['id'] ?>" class="btn btn-sm btn-secondary">Editar</a>
-                                    <a href="/admin/projetos/documentos.php?projeto_id=<?= $proj['id'] ?>" class="btn btn-sm btn-secondary">Docs</a>
-                                    <a href="/admin/projetos/funcoes.php?projeto_id=<?= $proj['id'] ?>" class="btn btn-sm btn-secondary">Funções</a>
+                                <div style="display: flex; gap: 0.35rem; justify-content: flex-end; flex-wrap: wrap;">
+                                    <a href="/admin/projetos/editar.php?id=<?= $proj['id'] ?>" class="btn btn-sm btn-secondary" title="Editar informações">Editar</a>
+                                    <a href="/admin/projetos/documentos.php?projeto_id=<?= $proj['id'] ?>" class="btn btn-sm btn-secondary" title="Documentos do projeto">Docs</a>
+                                    <a href="/admin/projetos/funcoes.php?projeto_id=<?= $proj['id'] ?>" class="btn btn-sm btn-secondary" title="Funções">Funções</a>
 
-                                    <!-- Form toggle ativo -->
-                                    <form method="POST" action="/admin/projetos/listar.php" style="display: inline;" onsubmit="return confirm('Confirma a alteração?');">
+                                    <form method="POST" action="/admin/projetos/listar.php" style="display: inline;" onsubmit="return confirm('Confirma a alteração de status deste projeto?');">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="toggle_ativo">
                                         <input type="hidden" name="id" value="<?= $proj['id'] ?>">
-                                        <button type="submit" class="btn btn-sm <?= $proj['ativo'] ? 'btn-warning' : 'btn-success' ?>">
+                                        <button type="submit" class="btn btn-sm <?= $proj['ativo'] ? 'btn-ghost text-danger' : 'btn-success' ?>">
                                             <?= $proj['ativo'] ? 'Desativar' : 'Ativar' ?>
                                         </button>
                                     </form>

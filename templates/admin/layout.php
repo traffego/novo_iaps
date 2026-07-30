@@ -83,14 +83,30 @@ $page_title = $page_title ?? 'Admin - IAPS';
                 });
             }
 
-            // Init TinyMCE
+            // User dropdown toggle
+            const userMenu = document.getElementById('user-menu-dropdown');
+            if (userMenu) {
+                const trigger = userMenu.querySelector('.user-dropdown');
+                const menu = userMenu.querySelector('.dropdown-menu');
+                if (trigger && menu) {
+                    trigger.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        menu.classList.toggle('show');
+                    });
+                    document.addEventListener('click', () => {
+                        menu.classList.remove('show');
+                    });
+                }
+            }
+
+            // Init TinyMCE if present
             if (typeof tinymce !== 'undefined') {
                 tinymce.init({
                     selector: '.tinymce-editor',
                     menubar: false,
                     plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
                     toolbar: 'undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-                    content_style: 'body { font-family: Inter,sans-serif; font-size:16px }'
+                    content_style: 'body { font-family: "DM Sans", sans-serif; font-size:15px; background: #161b22; color: #e6edf3; }'
                 });
             }
         });
