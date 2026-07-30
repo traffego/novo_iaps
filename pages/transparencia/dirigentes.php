@@ -49,28 +49,28 @@ ob_start();
         <!-- HEADER METRICS -->
         <div class="painel-summary-grid fade-in-up">
             <div class="summary-card">
-                <div class="s-icon">👥</div>
+                <div class="s-icon"><i data-lucide="users"></i></div>
                 <div class="s-info">
                     <span class="s-num"><?= $total_dir > 0 ? $total_dir : '0' ?></span>
                     <span class="s-lbl">Dirigentes Cadastrados</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">🏆</div>
+                <div class="s-icon"><i data-lucide="award"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.1rem; line-height:1.2;">Ricardo Rocha</span>
                     <span class="s-lbl">Patrono Institucional</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">📋</div>
+                <div class="s-icon"><i data-lucide="shield-check"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.1rem; line-height:1.2;">Sem Remuneração</span>
                     <span class="s-lbl">Atuação Voluntária MROSC</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">✅</div>
+                <div class="s-icon"><i data-lucide="check-circle-2"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.1rem; line-height:1.2;">Vigente</span>
                     <span class="s-lbl">Status do Mandato</span>
@@ -80,7 +80,7 @@ ob_start();
 
         <?php if ($tem_pdf): ?>
         <div class="transp-banner-card fade-in-up mb-8" style="background:var(--bg-surface); border:1px solid var(--border-color);">
-            <div class="t-banner-icon">📄</div>
+            <div class="t-banner-icon"><i data-lucide="file-text"></i></div>
             <div class="t-banner-content" style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:1rem;">
                 <div>
                     <h3 style="margin:0; font-size:1.15rem;">Ata & Relação Oficial de Dirigentes (PDF)</h3>
@@ -115,12 +115,12 @@ ob_start();
                     <div style="font-size:0.85rem; color:var(--text-muted); display:flex; flex-direction:column; gap:0.35rem; margin-top:auto; padding-top:0.75rem; border-top:1px dashed var(--border-color);">
                         <?php if ($d['telefone']): ?>
                             <span style="display:flex; align-items:center; gap:0.4rem;">
-                                📞 <?= e($d['telefone']) ?>
+                                <i data-lucide="phone" style="width:14px; height:14px;"></i> <?= e($d['telefone']) ?>
                             </span>
                         <?php endif; ?>
                         <?php if ($d['e_mail']): ?>
                             <span style="display:flex; align-items:center; gap:0.4rem; word-break:break-all;">
-                                ✉️ <a href="mailto:<?= e($d['e_mail']) ?>" style="color:var(--color-primary);"><?= e($d['e_mail']) ?></a>
+                                <i data-lucide="mail" style="width:14px; height:14px;"></i> <a href="mailto:<?= e($d['e_mail']) ?>" style="color:var(--color-primary);"><?= e($d['e_mail']) ?></a>
                             </span>
                         <?php endif; ?>
                     </div>

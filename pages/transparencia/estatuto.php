@@ -45,28 +45,28 @@ ob_start();
         <!-- HEADER METRICS BANNER -->
         <div class="painel-summary-grid fade-in-up">
             <div class="summary-card">
-                <div class="s-icon">🏛️</div>
+                <div class="s-icon"><i data-lucide="building-2"></i></div>
                 <div class="s-info">
                     <span class="s-num">2012</span>
                     <span class="s-lbl">Ano de Registro</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">📍</div>
+                <div class="s-icon"><i data-lucide="map-pin"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">Recife-PE</span>
                     <span class="s-lbl">Sede Jurídica</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">📜</div>
+                <div class="s-icon"><i data-lucide="scroll"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">OSC / 3º Setor</span>
                     <span class="s-lbl">Natureza Jurídica</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">⚖️</div>
+                <div class="s-icon"><i data-lucide="scale"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">Consolidado</span>
                     <span class="s-lbl">Estatuto Vigente</span>
@@ -76,7 +76,7 @@ ob_start();
 
         <!-- MAIN ESTATUTO CARD BANNER -->
         <div class="transp-banner-card fade-in-up mb-8">
-            <div class="t-banner-icon">📜</div>
+            <div class="t-banner-icon"><i data-lucide="file-check-2"></i></div>
             <div class="t-banner-content" style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:1.5rem;">
                 <div style="max-width:700px;">
                     <span class="section-tag">Norma Fundamental</span>
@@ -96,7 +96,7 @@ ob_start();
         <div class="painel-grid fade-in-up">
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">🎯</div>
+                    <div class="doc-icon-box"><i data-lucide="target"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">
@@ -109,7 +109,7 @@ ob_start();
 
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">🏆</div>
+                    <div class="doc-icon-box"><i data-lucide="trophy"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">
@@ -122,7 +122,7 @@ ob_start();
 
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">👔</div>
+                    <div class="doc-icon-box"><i data-lucide="briefcase"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">

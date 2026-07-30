@@ -49,28 +49,28 @@ ob_start();
         <!-- SUMMARY METRICS GRID -->
         <div class="painel-summary-grid fade-in-up">
             <div class="summary-card">
-                <div class="s-icon">💰</div>
+                <div class="s-icon"><i data-lucide="wallet"></i></div>
                 <div class="s-info">
                     <span class="s-num"><?= $total_docs ?></span>
                     <span class="s-lbl">Relatórios Publicados</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">📊</div>
+                <div class="s-icon"><i data-lucide="line-chart"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">Balanço Patrimonial</span>
                     <span class="s-lbl">Demonstrativos Anuais</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">🔍</div>
+                <div class="s-icon"><i data-lucide="search-check"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">Contabilidade</span>
                     <span class="s-lbl">Auditoria & Prestação</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">🕒</div>
+                <div class="s-icon"><i data-lucide="clock"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem; font-family:var(--font-mono);"><?= e($ultimo_doc) ?></span>
                     <span class="s-lbl">Último Balanço</span>
@@ -80,7 +80,7 @@ ob_start();
 
         <?php if (empty($docs)): ?>
         <div class="empty-state fade-in-up">
-            <div class="empty-icon">💰</div>
+            <div class="empty-icon"><i data-lucide="wallet"></i></div>
             <h3>Nenhum documento financeiro publicado</h3>
             <p>Os demonstrativos contábeis e relatórios financeiros são validados e publicados conforme as prestações de contas forem concluídas.</p>
         </div>
@@ -97,7 +97,7 @@ ob_start();
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
                     <div class="doc-icon-box" style="color:var(--color-success); background:rgba(5,150,105,0.12);">
-                        💰
+                        <i data-lucide="file-text"></i>
                     </div>
                 </div>
                 <div class="painel-card-body">

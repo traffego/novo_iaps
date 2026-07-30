@@ -45,28 +45,28 @@ ob_start();
         <!-- HEADER METRICS BANNER -->
         <div class="painel-summary-grid fade-in-up">
             <div class="summary-card">
-                <div class="s-icon">⚖️</div>
+                <div class="s-icon"><i data-lucide="scale"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.1rem; line-height:1.2;">Lei 13.019/2014</span>
                     <span class="s-lbl">Marco Regulatório MROSC</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">🏆</div>
+                <div class="s-icon"><i data-lucide="trophy"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.1rem; line-height:1.2;">Lei 11.438/2006</span>
                     <span class="s-lbl">Incentivo ao Esporte</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">📢</div>
+                <div class="s-icon"><i data-lucide="megaphone"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.1rem; line-height:1.2;">Lei 12.527/2011</span>
                     <span class="s-lbl">Acesso à Informação</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">💯</div>
+                <div class="s-icon"><i data-lucide="check-circle-2"></i></div>
                 <div class="s-info">
                     <span class="s-num">100%</span>
                     <span class="s-lbl">Acesso Público</span>
@@ -76,7 +76,7 @@ ob_start();
 
         <!-- MAIN DECLARATION BANNER CARD -->
         <div class="transp-banner-card fade-in-up mb-8">
-            <div class="t-banner-icon">📋</div>
+            <div class="t-banner-icon"><i data-lucide="clipboard-check"></i></div>
             <div class="t-banner-content">
                 <span class="section-tag">Compromisso Público</span>
                 <h2>Gestão Ética, Aberta e Transparente</h2>
@@ -88,7 +88,7 @@ ob_start();
         <div class="painel-grid fade-in-up">
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">📜</div>
+                    <div class="doc-icon-box"><i data-lucide="scroll"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">
@@ -102,7 +102,7 @@ ob_start();
 
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">👥</div>
+                    <div class="doc-icon-box"><i data-lucide="users"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">
@@ -116,7 +116,7 @@ ob_start();
 
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">💰</div>
+                    <div class="doc-icon-box"><i data-lucide="wallet"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">
@@ -130,7 +130,7 @@ ob_start();
 
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">📋</div>
+                    <div class="doc-icon-box"><i data-lucide="shopping-bag"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">
@@ -144,7 +144,7 @@ ob_start();
 
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">🤝</div>
+                    <div class="doc-icon-box"><i data-lucide="handshake"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">
@@ -158,7 +158,7 @@ ob_start();
 
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">📊</div>
+                    <div class="doc-icon-box"><i data-lucide="bar-chart-3"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">

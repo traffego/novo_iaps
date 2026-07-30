@@ -49,28 +49,28 @@ ob_start();
         <!-- SUMMARY METRICS GRID -->
         <div class="painel-summary-grid fade-in-up">
             <div class="summary-card">
-                <div class="s-icon">🤝</div>
+                <div class="s-icon"><i data-lucide="handshake"></i></div>
                 <div class="s-info">
                     <span class="s-num"><?= $total_termos ?></span>
                     <span class="s-lbl">Termos Registrados</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">📜</div>
+                <div class="s-icon"><i data-lucide="scroll"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">Lei 13.019/2014</span>
                     <span class="s-lbl">Regime Jurídico MROSC</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">🏛️</div>
+                <div class="s-icon"><i data-lucide="building-2"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">Poder Público</span>
                     <span class="s-lbl">Parcerias Estratégicas</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">🕒</div>
+                <div class="s-icon"><i data-lucide="clock"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem; font-family:var(--font-mono);"><?= e($ultimo_termo) ?></span>
                     <span class="s-lbl">Último Instrumento</span>
@@ -80,7 +80,7 @@ ob_start();
 
         <?php if (empty($termos)): ?>
         <div class="empty-state fade-in-up">
-            <div class="empty-icon">🤝</div>
+            <div class="empty-icon"><i data-lucide="handshake"></i></div>
             <h3>Nenhum termo publicado</h3>
             <p>Os termos de colaboração e fomento celebrados serão listados publicamente nesta seção.</p>
         </div>
@@ -97,7 +97,7 @@ ob_start();
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
                     <div class="doc-icon-box" style="color:var(--color-primary); background:var(--color-primary-alpha);">
-                        🤝
+                        <i data-lucide="handshake"></i>
                     </div>
                 </div>
                 <div class="painel-card-body">

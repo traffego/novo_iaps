@@ -45,28 +45,28 @@ ob_start();
         <!-- HEADER METRICS -->
         <div class="painel-summary-grid fade-in-up">
             <div class="summary-card">
-                <div class="s-icon">🛍️</div>
+                <div class="s-icon"><i data-lucide="shopping-bag"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">Cotação Prévia</span>
                     <span class="s-lbl">Pesquisa Mercadológica</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">⚖️</div>
+                <div class="s-icon"><i data-lucide="scale"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">Impessoalidade</span>
                     <span class="s-lbl">Julgamento Objetivo</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">📢</div>
+                <div class="s-icon"><i data-lucide="megaphone"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">Publicidade</span>
                     <span class="s-lbl">Editais Abertos</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">✅</div>
+                <div class="s-icon"><i data-lucide="check-circle-2"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size:1.15rem;">Aprovado</span>
                     <span class="s-lbl">Regulamento Próprio</span>
@@ -76,7 +76,7 @@ ob_start();
 
         <!-- MAIN REGULAMENTO BANNER -->
         <div class="transp-banner-card fade-in-up mb-8">
-            <div class="t-banner-icon">📋</div>
+            <div class="t-banner-icon"><i data-lucide="clipboard-check"></i></div>
             <div class="t-banner-content" style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:1.5rem;">
                 <div style="max-width:700px;">
                     <span class="section-tag">Norma de Contratação</span>
@@ -96,7 +96,7 @@ ob_start();
         <div class="painel-grid fade-in-up">
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">🔍</div>
+                    <div class="doc-icon-box"><i data-lucide="search"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">
@@ -109,7 +109,7 @@ ob_start();
 
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">⚖️</div>
+                    <div class="doc-icon-box"><i data-lucide="scale"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">
@@ -122,7 +122,7 @@ ob_start();
 
             <div class="painel-card">
                 <div class="painel-card-doc-icon">
-                    <div class="doc-icon-box">📄</div>
+                    <div class="doc-icon-box"><i data-lucide="file-check"></i></div>
                 </div>
                 <div class="painel-card-body">
                     <div class="painel-card-meta">

@@ -144,22 +144,22 @@ ob_start();
             </div>
             <div class="mission-values">
                 <div class="value-card">
-                    <div class="value-icon">🏆</div>
+                    <div class="value-icon"><i data-lucide="award"></i></div>
                     <h4>Excelência</h4>
                     <p>Comprometidos com a qualidade em cada projeto e iniciativa esportiva.</p>
                 </div>
                 <div class="value-card">
-                    <div class="value-icon">🤝</div>
+                    <div class="value-icon"><i data-lucide="heart-handshake"></i></div>
                     <h4>Inclusão</h4>
                     <p>O esporte como ponte para a igualdade e oportunidades para todos.</p>
                 </div>
                 <div class="value-card">
-                    <div class="value-icon">📋</div>
+                    <div class="value-icon"><i data-lucide="shield-check"></i></div>
                     <h4>Transparência</h4>
                     <p>Prestação de contas pública e total transparência na gestão dos recursos.</p>
                 </div>
                 <div class="value-card">
-                    <div class="value-icon">💪</div>
+                    <div class="value-icon"><i data-lucide="zap"></i></div>
                     <h4>Compromisso</h4>
                     <p>Dedicação plena ao desenvolvimento humano através do esporte.</p>
                 </div>

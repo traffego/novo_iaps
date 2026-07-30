@@ -85,28 +85,28 @@ ob_start();
         <!-- ESTATÍSTICAS E RESUMO DO PAINEL -->
         <div class="painel-summary-grid fade-in-up">
             <div class="summary-card">
-                <div class="s-icon">📊</div>
+                <div class="s-icon"><i data-lucide="bar-chart-3"></i></div>
                 <div class="s-info">
                     <span class="s-num"><?= $total_documentos ?></span>
                     <span class="s-lbl">Transferências Publicadas</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">📁</div>
+                <div class="s-icon"><i data-lucide="folder"></i></div>
                 <div class="s-info">
                     <span class="s-num"><?= $total_planilhas ?></span>
                     <span class="s-lbl">Planilhas & Relatórios</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">📸</div>
+                <div class="s-icon"><i data-lucide="image"></i></div>
                 <div class="s-info">
                     <span class="s-num"><?= $total_imagens ?></span>
                     <span class="s-lbl">Comprovantes & Painéis</span>
                 </div>
             </div>
             <div class="summary-card">
-                <div class="s-icon">🕒</div>
+                <div class="s-icon"><i data-lucide="clock"></i></div>
                 <div class="s-info">
                     <span class="s-num" style="font-size: 1.25rem; font-family: var(--font-mono);"><?= e($ultima_atualizacao) ?></span>
                     <span class="s-lbl">Última Atualização</span>
@@ -116,7 +116,7 @@ ob_start();
 
         <?php if (empty($arquivos)): ?>
         <div class="empty-state fade-in-up">
-            <div class="empty-icon">📊</div>
+            <div class="empty-icon"><i data-lucide="bar-chart-3"></i></div>
             <h3>Painel em atualização</h3>
             <p>Os demonstrativos e planilhas de transferências serão publicados conforme a liberação dos relatórios periódicos.</p>
         </div>
@@ -131,7 +131,7 @@ ob_start();
                     <a href="<?= e($arq['path']) ?>" class="glightbox" data-title="Painel de Transferências — <?= e($arq['data']) ?>" data-description="Instituto Atleta Para Sempre">
                         <img src="<?= e($arq['path']) ?>" alt="Transferência <?= e($arq['data']) ?>" loading="lazy" class="painel-img">
                         <div class="painel-media-badge">
-                            <span>🔍 Ver Painel Ampliado</span>
+                            <span>Ver Painel Ampliado</span>
                         </div>
                     </a>
                 </div>

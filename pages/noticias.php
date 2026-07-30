@@ -35,7 +35,7 @@ ob_start();
     <div class="container">
         <?php if (empty($noticias)): ?>
         <div class="empty-state fade-in-up">
-            <div class="empty-icon">📰</div>
+            <div class="empty-icon"><i data-lucide="newspaper"></i></div>
             <h3>Nenhuma notícia publicada</h3>
             <p>Em breve publicaremos novidades por aqui. Volte logo!</p>
         </div>

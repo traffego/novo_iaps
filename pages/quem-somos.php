@@ -45,7 +45,7 @@ ob_start();
                         <img src="<?= asset('assets/img/ricardo_rocha_oficial.jpg') ?>?v=<?= file_exists(ROOT_PATH . '/assets/img/ricardo_rocha_oficial.jpg') ? filemtime(ROOT_PATH . '/assets/img/ricardo_rocha_oficial.jpg') : time() ?>" alt="Ricardo Rocha - Patrono do Instituto Atleta para Sempre" class="patrono-img patrono-img-primary">
                         <img src="<?= asset('assets/img/ricardo_rocha_historico.jpg') ?>?v=<?= file_exists(ROOT_PATH . '/assets/img/ricardo_rocha_historico.jpg') ? filemtime(ROOT_PATH . '/assets/img/ricardo_rocha_historico.jpg') : time() ?>" alt="Ricardo Rocha - Tetra Campeão 1994" class="patrono-img patrono-img-secondary">
                         <div class="patrono-badge">
-                            <span id="patrono-badge-text">🏆 Patrono Institucional</span>
+                            <span id="patrono-badge-text">Patrono Institucional</span>
                         </div>
                     </div>
                     <div class="patrono-info">
@@ -120,12 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Animação inicial ao entrar na página: alterna para a foto de 1994 e retorna
     setTimeout(function() {
         card.classList.add('show-historic');
-        if (badgeText) badgeText.textContent = '🥇 Capitão do Tetra 1994';
+        if (badgeText) badgeText.textContent = 'Capitão do Tetra 1994';
         
         setTimeout(function() {
             if (!card.matches(':hover')) {
                 card.classList.remove('show-historic');
-                if (badgeText) badgeText.textContent = '🏆 Patrono Institucional';
+                if (badgeText) badgeText.textContent = 'Patrono Institucional';
             }
         }, 2800);
     }, 1200);
@@ -133,12 +133,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Alternar via Hover
     card.addEventListener('mouseenter', function() {
         card.classList.add('show-historic');
-        if (badgeText) badgeText.textContent = '🥇 Capitão do Tetra 1994';
+        if (badgeText) badgeText.textContent = 'Capitão do Tetra 1994';
     });
 
     card.addEventListener('mouseleave', function() {
         card.classList.remove('show-historic');
-        if (badgeText) badgeText.textContent = '🏆 Patrono Institucional';
+        if (badgeText) badgeText.textContent = 'Patrono Institucional';
     });
 });
 </script>
