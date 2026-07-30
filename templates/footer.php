@@ -6,10 +6,12 @@ if (!defined('ROOT_PATH')) exit;
     <div class="container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <h3 class="footer-title text-primary">Instituto Atleta Para Sempre</h3>
+                <h3 class="footer-title text-primary">INSTITUTO ATLETAS PARA SEMPRE</h3>
                 <p class="text-muted">Promovendo o esporte e a inclusão social através da Lei de Incentivo ao Esporte no Brasil. Transformando vidas por meio da educação e cidadania.</p>
-                <p class="text-muted mt-2"><strong>CNPJ:</strong> 00.000.000/0001-00</p>
-                <p class="text-muted"><strong>Endereço:</strong> Rua do Esporte, 123 - Centro, Cidade - UF</p>
+                <p class="text-muted mt-2"><strong>CNPJ:</strong> 17.397.521/0001-27</p>
+                <p class="text-muted"><strong>Endereço:</strong> Rua Eugênio de Lima, 143, sala 01 - Boa Viagem, Recife - PE.</p>
+                <p class="text-muted"><strong>E-mail:</strong> gestao.atletaparasempre@gmail.com</p>
+                <p class="text-muted"><strong>Telefone:</strong> (81) 98328-8465</p>
                 
                 <div class="social-links">
                     <a href="#" class="social-link" aria-label="Facebook">
@@ -29,7 +31,6 @@ if (!defined('ROOT_PATH')) exit;
                 <ul class="footer-links">
                     <li><a href="/quem-somos" class="footer-link">Quem Somos</a></li>
                     <li><a href="/projetos" class="footer-link">Projetos</a></li>
-                    <li><a href="/noticias" class="footer-link">Notícias</a></li>
                     <li><a href="/trabalhe-conosco" class="footer-link">Trabalhe Conosco</a></li>
                     <li><a href="/contato" class="footer-link">Contato</a></li>
                 </ul>
@@ -48,7 +49,7 @@ if (!defined('ROOT_PATH')) exit;
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; <?= date('Y') ?> Instituto Atleta Para Sempre. Todos os direitos reservados.</p>
+            <p>Copyright 2026 © INSTITUTO ATLETAS PARA SEMPRE.</p>
             <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="btn btn-ghost btn-sm" aria-label="Voltar ao topo">
                 Voltar ao topo
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>

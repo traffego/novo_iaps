@@ -62,15 +62,15 @@ ob_start();
                 <div class="stat-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
                 </div>
-                <div class="stat-number" data-counter data-target="<?= $total_projetos ?>"><?= $total_projetos ?></div>
-                <div class="stat-label">Projetos Ativos</div>
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Projetos ativos</div>
             </div>
             <div class="stat-card fade-in-up" style="animation-delay:.1s">
                 <div class="stat-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
-                <div class="stat-number" data-counter data-target="<?= $total_curriculos ?>"><?= $total_curriculos ?></div>
-                <div class="stat-label">Candidaturas Recebidas</div>
+                <div class="stat-number" style="font-size: 2rem;">mais de 50</div>
+                <div class="stat-label">Carreiras encaminhadas</div>
             </div>
             <div class="stat-card fade-in-up" style="animation-delay:.2s">
                 <div class="stat-icon">

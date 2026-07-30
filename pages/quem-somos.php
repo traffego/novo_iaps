@@ -30,19 +30,11 @@ ob_start();
         <div class="about-grid fade-in-up">
             <div class="about-text">
                 <span class="section-tag">Nossa História</span>
-                <h2 class="section-title">Instituto Atleta Para Sempre</h2>
-                <p>O <strong>Instituto Atleta Para Sempre</strong> é uma organização do terceiro setor, sem fins lucrativos, dedicada ao desenvolvimento e fomento do esporte brasileiro por meio da Lei Federal de Incentivo ao Esporte (Lei nº 11.438, de 29 de dezembro de 2006).</p>
-                <p>Atuamos como gestores de projetos esportivos captando recursos junto a patrocinadores e aplicando-os de forma transparente e eficiente em iniciativas que promovem:</p>
-                <ul class="about-list">
-                    <li>Inclusão social através do esporte de alto rendimento</li>
-                    <li>Formação de atletas em diversas modalidades</li>
-                    <li>Desenvolvimento humano e cidadania</li>
-                    <li>Integração de pessoas com deficiência no paradesporto</li>
-                    <li>Democratização do acesso ao esporte de qualidade</li>
-                </ul>
-                <?php if ($org && $org['site']): ?>
-                <a href="<?= e($org['site']) ?>" class="btn btn-primary" target="_blank" rel="noopener">Visite nosso site</a>
-                <?php endif; ?>
+                <h2 class="section-title">Instituto Atleta para Sempre</h2>
+                <p>O <strong>Instituto Atleta para Sempre</strong> é uma Organização da Sociedade Civil, de caráter social e beneficente, instituída em 2012, com sede em Recife-PE. Atuamos na promoção da cidadania e no fortalecimento do desenvolvimento humano por meio da prática esportiva, especialmente em comunidades em situação de vulnerabilidade social. Nossas atividades são orientadas pelos princípios da Assistência Social e alinhadas ao interesse público, em conformidade com a Lei nº 13.019/2014.</p>
+                <p>Temos como patrono o Capitão do Tetra, Ricardo Rocha, cuja experiência profissional e metodologia de gestão esportiva fundamentam as ações desenvolvidas pelo Instituto. Sua prática, consolidada ao longo de trabalhos realizados em diferentes regiões do Estado, contribuiu para a formação esportiva e social de mais de 2.000 crianças e adolescentes.</p>
+                <p>O <strong>Instituto Atleta para Sempre</strong> atua de forma integrada com parceiros públicos e privados, ampliando o acesso ao esporte, ao lazer e à formação cidadã. Nosso propósito é oferecer alternativas qualificadas para o contraturno escolar, promovendo habilidades técnicas, motoras e sociais, além de incentivar valores como respeito, honestidade e responsabilidade.</p>
+                <p>Comprometemo-nos com a construção de oportunidades e com a transformação social, contribuindo para que crianças e jovens e adultos desenvolvam trajetórias mais seguras, saudáveis e alinhadas ao exercício pleno da cidadania.</p>
             </div>
             <div class="about-visual">
                 <div class="about-card-stack">
