@@ -9,13 +9,15 @@ RewriteRule ^templates/ - [F,L]
 RewriteRule ^migrations/ - [F,L]
 RewriteRule ^\.env - [F,L]
 
-# Allow direct access to real files and directories
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# Auto-rewrite any directory request to its index.php file if it exists
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME}/index.php -f
+RewriteRule ^(.*)$ $1/index.php [L]
 
-# Skip admin and api (they have their own routing)
-RewriteCond %{REQUEST_URI} !^/admin
-RewriteCond %{REQUEST_URI} !^/api
+# Allow direct access to real files and directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
 
 # Route everything else to front controller
 RewriteRule ^(.*)$ index.php [QSA,L]
