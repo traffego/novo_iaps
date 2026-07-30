@@ -1,6 +1,15 @@
 <?php
 // templates/header.php
 if (!defined('ROOT_PATH')) exit;
+
+$total_noticias = 0;
+try {
+    if (function_exists('db_count')) {
+        $total_noticias = db_count('SELECT COUNT(*) FROM tab_noticias');
+    }
+} catch (Throwable $e) {
+    $total_noticias = 0;
+}
 ?>
 <header class="site-header">
     <div class="container">
@@ -15,10 +24,13 @@ if (!defined('ROOT_PATH')) exit;
 
             <div class="navbar-collapse" id="navbar-collapse">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a href="/" class="nav-link"><i data-lucide="home"></i> Início</a></li>
                     <li class="nav-item"><a href="/quem-somos" class="nav-link"><i data-lucide="info"></i> Quem Somos</a></li>
                     <li class="nav-item"><a href="/projetos" class="nav-link"><i data-lucide="trophy"></i> Projetos</a></li>
+                    
+                    <?php if ($total_noticias > 0): ?>
                     <li class="nav-item"><a href="/noticias" class="nav-link"><i data-lucide="newspaper"></i> Notícias</a></li>
+                    <?php endif; ?>
+
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link" id="navbarDropdown">
                             <i data-lucide="shield-check"></i> Transparência
