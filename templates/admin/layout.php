@@ -24,7 +24,11 @@ $page_title = $page_title ?? 'Admin - IAPS';
     <link rel="stylesheet" href="/assets/css/admin.css?v=<?= $css_v2 ?>">
     
     <!-- TinyMCE -->
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <?php if (!empty(TINYMCE_API_KEY)): ?>
+    <script src="https://cdn.tiny.cloud/1/<?= e(TINYMCE_API_KEY) ?>/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <?php else: ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.2/tinymce.min.js" referrerpolicy="origin"></script>
+    <?php endif; ?>
     
     <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon">
 

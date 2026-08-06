@@ -53,6 +53,7 @@ define('SMTP_FROM', $_ENV['SMTP_FROM'] ?? 'contato@institutoatletaparasempre.org
 define('SMTP_FROM_NAME', $_ENV['SMTP_FROM_NAME'] ?? 'Instituto Atleta Para Sempre');
 
 // Outros
+define('TINYMCE_API_KEY', $_ENV['TINYMCE_API_KEY'] ?? '');
 define('CONTACT_EMAIL', $_ENV['CONTACT_EMAIL'] ?? 'contato@institutoatletaparasempre.org');
 define('APP_URL', $_ENV['APP_URL'] ?? 'http://localhost:8080');
 define('APP_ENV', $_ENV['APP_ENV'] ?? 'development');
