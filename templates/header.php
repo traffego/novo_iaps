@@ -15,11 +15,7 @@ try {
     <div class="container">
         <nav class="navbar">
             <a href="/" class="logo-inverted-container" title="Instituto Atleta Para Sempre">
-                <img src="https://institutoatletaparasempre.org/imgs/logo_site.png" alt="Instituto Atleta Para Sempre" class="header-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="logo-fallback" style="display:none;">
-                    <div class="logo-icon-pill">A</div>
-                    <span class="logo-text-inverted">Atleta Para Sempre</span>
-                </div>
+                <img src="/assets/img/logo_site.png" alt="Instituto Atleta Para Sempre" class="header-logo">
             </a>
 
             <div class="navbar-collapse" id="mobile-menu">

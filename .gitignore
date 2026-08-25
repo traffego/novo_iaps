@@ -12,6 +12,7 @@ data/auth_info/
 
 # Uploads privados
 # uploads/fornecedores/*
+uploads/para_colocar_no_banco_e_organizar_nas_pastas/
 
 # IDE
 .vscode/

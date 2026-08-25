@@ -22,6 +22,7 @@ CREATE TABLE `tab_org` (
   `id` INT AUTO_INCREMENT NOT NULL,
   `cod_org` INT NOT NULL,
   `nome_org` varchar(100) DEFAULT NULL,
+  `cnpj` varchar(20) DEFAULT NULL,
   `presidente_org` varchar(50) DEFAULT NULL,
   `telefone` varchar(30) DEFAULT NULL,
   `e_mail` varchar(40) DEFAULT NULL,

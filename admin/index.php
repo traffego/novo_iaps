@@ -173,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="login-wrapper">
         <!-- Logo / Marca -->
         <div class="login-logo">
-            <img src="https://institutoatletaparasempre.org/imgs/logo_site.png" alt="Instituto Atleta Para Sempre" style="max-height: 80px; margin-bottom: 15px;">
+            <img src="/assets/img/logo_site.png" alt="Instituto Atleta Para Sempre" style="max-height: 80px; margin-bottom: 15px;">
             <span class="login-logo-text">Instituto Atleta Para Sempre</span>
             <span class="login-logo-sub">Painel Administrativo</span>
         </div>
