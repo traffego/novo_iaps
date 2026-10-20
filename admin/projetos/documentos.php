@@ -16,7 +16,7 @@ if (!$projeto_id) { flash('error', 'Projeto não especificado.'); redirect(base_
 $projeto = db_fetch('SELECT * FROM tab_projetos WHERE id = ?', [$projeto_id]);
 if (!$projeto) { flash('error', 'Projeto não encontrado.'); redirect(base_url('/admin/projetos/listar.php')); }
 
-$tipos_doc = db_fetch_all('SELECT * FROM tab_projetos_documentos_tipo ORDER BY id');
+$tipos_doc = db_fetch_all('SELECT MIN(id) AS id, tipo_documento FROM tab_projetos_documentos_tipo GROUP BY tipo_documento ORDER BY id ASC');
 
 // Processar ações POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
