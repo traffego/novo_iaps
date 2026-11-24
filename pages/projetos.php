@@ -9,18 +9,19 @@ require_once ROOT_PATH . '/src/helpers.php';
 $page_title       = 'Projetos Esportivos';
 $page_description = 'Conheça todos os projetos e iniciativas esportivas incentivadas mantidas pelo Instituto Atleta Para Sempre.';
 
-// Buscar todos os projetos com fallback resiliente
+// Buscar todos os projetos ativos
 $projetos = [];
 try {
     $projetos = db_fetch_all(
         "SELECT p.*, COALESCE(ps.projetos_status, 'Em Execução') as status_nome
          FROM tab_projetos p
          LEFT JOIN tab_projetos_status ps ON p.projeto_status = ps.id
+         WHERE p.ativo = 1
          ORDER BY p.id DESC"
     );
 } catch (Throwable $e) {
     try {
-        $projetos = db_fetch_all("SELECT * FROM tab_projetos ORDER BY id DESC");
+        $projetos = db_fetch_all("SELECT * FROM tab_projetos WHERE ativo = 1 ORDER BY id DESC");
     } catch (Throwable $e2) {
         $projetos = [];
     }

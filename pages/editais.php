@@ -14,7 +14,7 @@ $filtro_projeto = (int)($_GET['projeto'] ?? 0);
 $busca          = trim($_GET['busca'] ?? '');
 
 // Condições de busca
-$where = 'WHERE 1=1';
+$where = 'WHERE p.ativo = 1';
 $params = [];
 
 if ($filtro_projeto > 0) {
@@ -28,7 +28,7 @@ if (!empty($busca)) {
     $params[] = '%' . $busca . '%';
 }
 
-// Buscar projetos (prioriza mostra_inicial = 1 ou ativo = 1 ou qualquer projeto existente)
+// Buscar projetos ativos
 $projetos = db_fetch_all(
     "SELECT p.*, ps.projetos_status as status_nome
      FROM tab_projetos p
@@ -38,19 +38,9 @@ $projetos = db_fetch_all(
     $params
 );
 
-// Se a busca estiver vazia e retornar nada com o filtro rigoroso, busca todos os projetos cadastrados
-if (empty($projetos) && $filtro_projeto == 0 && empty($busca)) {
-    $projetos = db_fetch_all(
-        "SELECT p.*, ps.projetos_status as status_nome
-         FROM tab_projetos p
-         LEFT JOIN tab_projetos_status ps ON p.projeto_status = ps.id
-         ORDER BY p.id DESC"
-    );
-}
-
-// Todos os projetos para o dropdown de filtro
+// Todos os projetos ativos para o dropdown de filtro
 $todos_projetos = db_fetch_all(
-    'SELECT id, nome_projeto, num_proposta FROM tab_projetos ORDER BY id DESC'
+    'SELECT id, nome_projeto, num_proposta FROM tab_projetos WHERE ativo = 1 ORDER BY id DESC'
 );
 
 $status_class = [
