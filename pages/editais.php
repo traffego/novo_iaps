@@ -217,7 +217,11 @@ ob_start();
                                         <?php endif; ?>
                                     </div>
 
-                                    <a href="/uploads/projetos/<?= (int)$doc['id'] ?>.pdf"
+                                    <?php
+                                        $arquivo_nome = trim((string)($doc['arquivo'] ?? ''));
+                                        $arquivo_pdf  = $arquivo_nome !== '' ? basename($arquivo_nome) : ((int)$doc['id'] . '.pdf');
+                                    ?>
+                                    <a href="/uploads/projetos/<?= e(rawurlencode($arquivo_pdf)) ?>"
                                        class="btn btn-primary btn-sm"
                                        target="_blank"
                                        rel="noopener"
